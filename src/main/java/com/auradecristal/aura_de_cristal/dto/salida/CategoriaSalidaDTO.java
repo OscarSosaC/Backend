@@ -1,0 +1,23 @@
+package com.auradecristal.aura_de_cristal.dto.salida;
+
+public class CategoriaSalidaDTO {
+
+    private int id;
+    private String descripcion;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+}
