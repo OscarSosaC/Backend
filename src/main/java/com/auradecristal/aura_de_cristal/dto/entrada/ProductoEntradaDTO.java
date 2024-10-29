@@ -1,82 +1,101 @@
 package com.auradecristal.aura_de_cristal.dto.entrada;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
 public class ProductoEntradaDTO {
 
     @NotBlank(message = "Debe especificarse el nombre del producto")
-    @Size(max = 50, message = "El nombre debe tener hasta 50 caracteres")
+    @Size(max = 100, message = "El nombre debe tener hasta 50 caracteres")
     private String nombre;
-    @NotBlank(message = "Debe realizar una descripción del producto")
-    @Size(max = 100, message = "La descripcion debe tener hasta 100 caracteres")
-    private String descripcion;
-    @NotBlank(message = "Debe especificarse el precio de alquiler del producto")
-    private double precio_alquiler;
-    @NotBlank(message = "Debe especificarse si el producto se encuentra disponible para alquiler")
-    private int disponibilidad;
-    @NotBlank(message = "Debe especificarse la cantidad de inventario existente del producto")
-    private int inventario;
-    @NotBlank(message = "Debe especificarse la categoria a la que pertenece el producto")
-    private CategoriaEntradaDTO categoria;
 
-    public ProductoEntradaDTO(String nombre, String descripcion, double precio_alquiler, int disponibilidad, int inventario, CategoriaEntradaDTO categoria) {
+    @NotBlank(message = "Debe realizar una descripción del producto")
+    @Size(max = 300, message = "La descripcion debe tener hasta 300 caracteres")
+    private String descripcion;
+
+    @Positive(message = "El precio de alquiler debe ser un valor positivo")
+    private double precio_alquiler;
+
+    @PositiveOrZero(message = "La disponibilidad debe ser cero o positiva")
+    private int disponibilidad;
+
+    @PositiveOrZero(message = "El inventario debe ser cero o positivo")
+    private int inventario;
+
+    @NotNull(message = "Debe especificarse la categoria a la que pertenece el producto")
+    private Long categoria_id;
+
+    @NotNull(message = "Debe especificarse la tematica a la que pertenece el producto")
+    private Long tematica_id;
+
+    public ProductoEntradaDTO () {}
+
+    public ProductoEntradaDTO(String nombre, String descripcion, double precio_alquiler, int disponibilidad, int inventario, Long categoria_id, Long tematica_id) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio_alquiler = precio_alquiler;
         this.disponibilidad = disponibilidad;
         this.inventario = inventario;
-        this.categoria = categoria;
+        this.categoria_id = categoria_id;
+        this.tematica_id = tematica_id;
     }
 
-    public @NotBlank(message = "Debe especificarse el nombre del producto") @Size(max = 50, message = "El nombre debe tener hasta 50 caracteres") String getNombre() {
+    public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(@NotBlank(message = "Debe especificarse el nombre del producto") @Size(max = 50, message = "El nombre debe tener hasta 50 caracteres") String nombre) {
+    public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
-    public @NotBlank(message = "Debe realizar una descripción del producto") @Size(max = 100, message = "La descripcion debe tener hasta 100 caracteres") String getDescripcion() {
+    public String getDescripcion() {
         return descripcion;
     }
 
-    public void setDescripcion(@NotBlank(message = "Debe realizar una descripción del producto") @Size(max = 100, message = "La descripcion debe tener hasta 100 caracteres") String descripcion) {
+    public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
 
-    @NotBlank(message = "Debe especificarse el precio de alquiler del producto")
     public double getPrecio_alquiler() {
         return precio_alquiler;
     }
 
-    public void setPrecio_alquiler(@NotBlank(message = "Debe especificarse el precio de alquiler del producto") double precio_alquiler) {
+    public void setPrecio_alquiler(double precio_alquiler) {
         this.precio_alquiler = precio_alquiler;
     }
 
-    @NotBlank(message = "Debe especificarse si el producto se encuentra disponible para alquiler")
     public int getDisponibilidad() {
         return disponibilidad;
     }
 
-    public void setDisponibilidad(@NotBlank(message = "Debe especificarse si el producto se encuentra disponible para alquiler") int disponibilidad) {
+    public void setDisponibilidad(int disponibilidad) {
         this.disponibilidad = disponibilidad;
     }
 
-    @NotBlank(message = "Debe especificarse la cantidad de inventario existente del producto")
     public int getInventario() {
         return inventario;
     }
 
-    public void setInventario(@NotBlank(message = "Debe especificarse la cantidad de inventario existente del producto") int inventario) {
+    public void setInventario(int inventario) {
         this.inventario = inventario;
     }
 
-    public @NotBlank(message = "Debe especificarse la categoria a la que pertenece el producto") CategoriaEntradaDTO getCategoria() {
-        return categoria;
+    public Long getCategoria_id() {
+        return categoria_id;
     }
 
-    public void setCategoria(@NotBlank(message = "Debe especificarse la categoria a la que pertenece el producto") CategoriaEntradaDTO categoria) {
-        this.categoria = categoria;
+    public void setCategoria_id(Long categoria_id) {
+        this.categoria_id = categoria_id;
+    }
+
+    public Long getTematica_id() {
+        return tematica_id;
+    }
+
+    public void setTematica_id(Long tematica_id) {
+        this.tematica_id = tematica_id;
     }
 }

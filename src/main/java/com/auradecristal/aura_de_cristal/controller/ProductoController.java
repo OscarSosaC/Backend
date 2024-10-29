@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("producto")
+@RequestMapping("productos")
 public class ProductoController {
 
     @Autowired
@@ -23,13 +23,23 @@ public class ProductoController {
         this.productoService = productoService;
     }
 
+    @GetMapping("/listar")
+    public ResponseEntity<List<ProductoSalidaDTO>> listarProductos () {
+        return new ResponseEntity<>(productoService.listarProductos(), HttpStatus.OK);
+    }
+
     @PostMapping("/registrar")
     public ResponseEntity<ProductoSalidaDTO> registrarProductos (@Valid @RequestBody ProductoEntradaDTO productoEntradaDTO) {
         return new ResponseEntity<>(productoService.registrarProducto(productoEntradaDTO), HttpStatus.CREATED);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductoSalidaDTO> buscarProductoXId (@PathVariable Long id) {
+        return new ResponseEntity<>(productoService.buscarProductoXId(id), HttpStatus.OK);
+    }
+
     @DeleteMapping("/eliminar")
-    public ResponseEntity<?> eliminarProducto (@RequestParam int id) {
+    public ResponseEntity<?> eliminarProducto (@RequestParam Long id) {
         productoService.eliminarProducto(id);
         return new ResponseEntity<>("Producto eliminado correctamente", HttpStatus.NO_CONTENT);
     }

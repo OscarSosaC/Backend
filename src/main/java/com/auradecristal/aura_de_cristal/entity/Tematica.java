@@ -3,28 +3,28 @@ package com.auradecristal.aura_de_cristal.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "categoria")
-public class Categoria {
+@Table(name = "tematica")
+public class Tematica {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_categoria;
+    private Long id_tematica;
     @Column(length = 50)
     private String descripcion;
 
-    public Categoria() { }
+    public Tematica() { }
 
-    public Categoria (Long id_categoria, String descripcion) {
-        this.id_categoria = id_categoria;
+    public Tematica(Long id_tematica, String descripcion) {
+        this.id_tematica = id_tematica;
         this.descripcion = descripcion;
     }
 
-    public Long getId_categoria() {
-        return id_categoria;
+    public Long getId_tematica() {
+        return id_tematica;
     }
 
-    public void setId_categoria(Long id_categoria) {
-        this.id_categoria = id_categoria;
+    public void setId_tematica(Long id_tematica) {
+        this.id_tematica = id_tematica;
     }
 
     public String getDescripcion() {

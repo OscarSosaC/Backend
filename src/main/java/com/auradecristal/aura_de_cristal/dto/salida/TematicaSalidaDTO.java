@@ -1,16 +1,16 @@
 package com.auradecristal.aura_de_cristal.dto.salida;
 
-public class CategoriaSalidaDTO {
+public class TematicaSalidaDTO {
 
     private Long id;
     private String descripcion;
 
-    public CategoriaSalidaDTO(Long id, String descripcion) {
+    public TematicaSalidaDTO(Long id, String descripcion) {
         this.id = id;
         this.descripcion = descripcion;
     }
 
-    public CategoriaSalidaDTO() {
+    public TematicaSalidaDTO() {
     }
 
     public Long getId() {

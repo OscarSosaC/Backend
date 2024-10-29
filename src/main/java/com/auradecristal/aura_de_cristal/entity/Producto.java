@@ -21,6 +21,9 @@ public class Producto {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "categoria_id", referencedColumnName = "id_categoria")
     private Categoria categoria;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "tematica_id", referencedColumnName = "id_tematica")
+    private Tematica tematica;
 
     @PrePersist
     protected void onCreate() {
@@ -29,7 +32,7 @@ public class Producto {
 
     public Producto() {}
 
-    public Producto(Long id_producto, String nombre, String descripcion, double precio_alquiler, int disponibilidad, LocalDateTime fecha_registro, int inventario, Categoria categoria) {
+    public Producto(Long id_producto, String nombre, String descripcion, double precio_alquiler, int disponibilidad, LocalDateTime fecha_registro, int inventario, Categoria categoria, Tematica tematica) {
         this.id_producto = id_producto;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -38,6 +41,7 @@ public class Producto {
         this.fecha_registro = fecha_registro;
         this.inventario = inventario;
         this.categoria = categoria;
+        this.tematica = tematica;
     }
 
     public Long getId_producto() {
@@ -102,5 +106,13 @@ public class Producto {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public Tematica getTematica() {
+        return tematica;
+    }
+
+    public void setTematica(Tematica tematica) {
+        this.tematica = tematica;
     }
 }

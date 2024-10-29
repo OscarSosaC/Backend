@@ -1,17 +1,15 @@
 package com.auradecristal.aura_de_cristal.dto.entrada;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
-public class CategoriaEntradaDTO {
+public class TematicaEntradaDTO {
 
-    @NotBlank(message = "Debe escribir una descripcion de la categoria")
-    @Size(max = 50, message = "La descripcion debe tener hasta 50 caracteres")
+    @NotBlank(message = "Debe escribir una descripcion de la tematica")
     private String descripcion;
 
-    public CategoriaEntradaDTO() {}
+    public TematicaEntradaDTO() {}
 
-    public CategoriaEntradaDTO(String descripcion) {
+    public TematicaEntradaDTO(String descripcion) {
         this.descripcion = descripcion;
     }
 
