@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
+import java.util.List;
+
 public class ProductoEntradaDTO {
 
     @NotBlank(message = "Debe especificarse el nombre del producto")
@@ -31,9 +33,10 @@ public class ProductoEntradaDTO {
     @NotNull(message = "Debe especificarse la tematica a la que pertenece el producto")
     private Long tematica_id;
 
-    public ProductoEntradaDTO () {}
+    @NotNull(message = "Debe ingresar al menos una imagen para el producto")
+    private List<String> imagenes;
 
-    public ProductoEntradaDTO(String nombre, String descripcion, double precio_alquiler, int disponibilidad, int inventario, Long categoria_id, Long tematica_id) {
+    public ProductoEntradaDTO(String nombre, String descripcion, double precio_alquiler, int disponibilidad, int inventario, Long categoria_id, Long tematica_id, List<String> imagenes) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio_alquiler = precio_alquiler;
@@ -41,7 +44,10 @@ public class ProductoEntradaDTO {
         this.inventario = inventario;
         this.categoria_id = categoria_id;
         this.tematica_id = tematica_id;
+        this.imagenes = imagenes;
     }
+
+    public ProductoEntradaDTO () {}
 
     public String getNombre() {
         return nombre;
@@ -97,5 +103,13 @@ public class ProductoEntradaDTO {
 
     public void setTematica_id(Long tematica_id) {
         this.tematica_id = tematica_id;
+    }
+
+    public @NotNull(message = "Debe ingresar al menos una imagen para el producto") List<String> getImagenes() {
+        return imagenes;
+    }
+
+    public void setImagenes(@NotNull(message = "Debe ingresar al menos una imagen para el producto") List<String> imagenes) {
+        this.imagenes = imagenes;
     }
 }

@@ -1,12 +1,14 @@
 package com.auradecristal.aura_de_cristal.service.impl;
 
 import com.auradecristal.aura_de_cristal.dto.entrada.CategoriaEntradaDTO;
+import com.auradecristal.aura_de_cristal.dto.entrada.ImagenEntradaDTO;
 import com.auradecristal.aura_de_cristal.dto.entrada.ProductoEntradaDTO;
 import com.auradecristal.aura_de_cristal.dto.salida.ProductoSalidaDTO;
 import com.auradecristal.aura_de_cristal.entity.Categoria;
 import com.auradecristal.aura_de_cristal.entity.Producto;
 import com.auradecristal.aura_de_cristal.entity.Tematica;
 import com.auradecristal.aura_de_cristal.repository.CategoriaRepository;
+import com.auradecristal.aura_de_cristal.repository.ImagenRepository;
 import com.auradecristal.aura_de_cristal.repository.ProductoRepository;
 import com.auradecristal.aura_de_cristal.repository.TematicaRepository;
 import com.auradecristal.aura_de_cristal.service.IProdutoService;
@@ -29,6 +31,8 @@ public class ProductoService implements IProdutoService {
     private CategoriaRepository categoriaRepository;
     @Autowired
     private TematicaRepository tematicaRepository;
+    @Autowired
+    private ImagenService imagenService;
     @Autowired
     private ModelMapper modelMapper;
     private final Logger LOGGER = LoggerFactory.getLogger(ProductoService.class);
@@ -67,6 +71,13 @@ public class ProductoService implements IProdutoService {
         producto.setTematica(tematica);
 
         ProductoSalidaDTO productoSalidaDTO = modelMapper.map(productoRepository.save(producto), ProductoSalidaDTO.class);
+
+        for (String url : productoEntradaDTO.getImagenes()) {
+            LOGGER.info("Url imagen: {}", url);
+            ImagenEntradaDTO imagenEntradaDTO = new ImagenEntradaDTO(url, productoSalidaDTO.getId());
+            imagenService.registrarImagen(imagenEntradaDTO);
+        }
+
         LOGGER.info("ProductoSalidaDto: " + JsonPrinter.toString(productoSalidaDTO));
         return productoSalidaDTO;
     }
