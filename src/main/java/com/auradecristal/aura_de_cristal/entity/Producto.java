@@ -1,6 +1,9 @@
 package com.auradecristal.aura_de_cristal.entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "producto")
@@ -8,7 +11,7 @@ public class Producto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_producto;
+    private Long idProducto;
     @Column(length = 50)
     private String nombre;
     @Column(length = 100)
@@ -19,11 +22,21 @@ public class Producto {
     private LocalDateTime fecha_registro;
     private int inventario;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "categoria_id", referencedColumnName = "id_categoria")
+    @JoinColumn(name = "categoria_id", referencedColumnName = "idCategoria")
     private Categoria categoria;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "tematica_id", referencedColumnName = "id_tematica")
+    @JoinColumn(name = "tematica_id", referencedColumnName = "idTematica")
     private Tematica tematica;
+    @ManyToMany
+    @JoinTable(
+            name = "producto_caracteristica",
+            joinColumns = @JoinColumn(name = "producto_id"), // Columna para Producto
+            inverseJoinColumns = @JoinColumn(name = "caracteristica_id") // Columna para Caracteristica
+    )
+    private Set<Caracteristica> caracteristicas;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "producto_id", referencedColumnName = "idProducto")
+    private List<Imagen> imagenes = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {
@@ -32,8 +45,8 @@ public class Producto {
 
     public Producto() {}
 
-    public Producto(Long id_producto, String nombre, String descripcion, double precio_alquiler, int disponibilidad, LocalDateTime fecha_registro, int inventario, Categoria categoria, Tematica tematica) {
-        this.id_producto = id_producto;
+    public Producto(Long idProducto, String nombre, String descripcion, double precio_alquiler, int disponibilidad, LocalDateTime fecha_registro, int inventario, Categoria categoria, Tematica tematica, Set<Caracteristica> caracteristicas, List<Imagen> imagenes) {
+        this.idProducto = idProducto;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio_alquiler = precio_alquiler;
@@ -42,14 +55,16 @@ public class Producto {
         this.inventario = inventario;
         this.categoria = categoria;
         this.tematica = tematica;
+        this.caracteristicas = caracteristicas;
+        this.imagenes = imagenes;
     }
 
-    public Long getId_producto() {
-        return id_producto;
+    public Long getidProducto() {
+        return idProducto;
     }
 
-    public void setId_producto(Long id_producto) {
-        this.id_producto = id_producto;
+    public void setidProducto(Long idProducto) {
+        this.idProducto = idProducto;
     }
 
     public String getNombre() {
@@ -114,5 +129,29 @@ public class Producto {
 
     public void setTematica(Tematica tematica) {
         this.tematica = tematica;
+    }
+
+    public Set<Caracteristica> getCaracteristicas() {
+        return caracteristicas;
+    }
+
+    public void setCaracteristicas(Set<Caracteristica> caracteristicas) {
+        this.caracteristicas = caracteristicas;
+    }
+
+    public Long getIdProducto() {
+        return idProducto;
+    }
+
+    public void setIdProducto(Long idProducto) {
+        this.idProducto = idProducto;
+    }
+
+    public List<Imagen> getImagenes() {
+        return imagenes;
+    }
+
+    public void setImagenes(List<Imagen> imagenes) {
+        this.imagenes = imagenes;
     }
 }

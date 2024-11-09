@@ -39,7 +39,11 @@ public class CategoriaController {
 
     @DeleteMapping("/eliminar")
     public ResponseEntity<?> eliminarCategoria (@RequestParam Long id) {
-        categoriaService.eliminarCategoria(id);
-        return new ResponseEntity<>("Categoria eliminada correctamente", HttpStatus.NO_CONTENT);
+        try {
+            categoriaService.eliminarCategoria(id);
+            return ResponseEntity.ok("Categoría eliminada con éxito.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 }

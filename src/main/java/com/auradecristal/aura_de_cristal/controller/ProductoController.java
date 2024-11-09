@@ -1,6 +1,7 @@
 package com.auradecristal.aura_de_cristal.controller;
 
 import com.auradecristal.aura_de_cristal.dto.entrada.ProductoEntradaDTO;
+import com.auradecristal.aura_de_cristal.dto.salida.ImagenSalidaDTO;
 import com.auradecristal.aura_de_cristal.dto.salida.ProductoSalidaDTO;
 import com.auradecristal.aura_de_cristal.service.impl.ProductoService;
 import jakarta.validation.Valid;
@@ -28,9 +29,18 @@ public class ProductoController {
         return new ResponseEntity<>(productoService.listarProductos(), HttpStatus.OK);
     }
 
+    @GetMapping("/imagenes/{idProducto}")
+    public List<ImagenSalidaDTO> obtenerImagenesPorProducto(@PathVariable Long idProducto) {
+        return productoService.obtenerImagenesXProducto(idProducto);
+    }
+
     @PostMapping("/registrar")
-    public ResponseEntity<ProductoSalidaDTO> registrarProductos (@Valid @RequestBody ProductoEntradaDTO productoEntradaDTO) {
-        return new ResponseEntity<>(productoService.registrarProducto(productoEntradaDTO), HttpStatus.CREATED);
+    public ResponseEntity<?> registrarProducto (@Valid @RequestBody ProductoEntradaDTO productoEntradaDTO) {
+        try {
+            return new ResponseEntity<>(productoService.registrarProducto(productoEntradaDTO), HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")

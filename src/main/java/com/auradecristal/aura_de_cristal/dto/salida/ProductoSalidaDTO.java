@@ -1,9 +1,13 @@
 package com.auradecristal.aura_de_cristal.dto.salida;
 
+import com.auradecristal.aura_de_cristal.dto.entrada.ImagenEntradaDTO;
 import com.auradecristal.aura_de_cristal.entity.Categoria;
+import com.auradecristal.aura_de_cristal.entity.Imagen;
 import com.auradecristal.aura_de_cristal.entity.Tematica;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProductoSalidaDTO {
 
@@ -16,8 +20,9 @@ public class ProductoSalidaDTO {
     private int inventario;
     private CategoriaSalidaDTO categoria;
     private TematicaSalidaDTO tematica;
+    private List<ImagenSalidaDTO> imagenes;
 
-    public ProductoSalidaDTO(Long id, String nombre, String descripcion, double precio_alquiler, int disponibilidad, LocalDateTime fecha_registro, int inventario, Categoria categoria, Tematica tematica) {
+    public ProductoSalidaDTO(Long id, String nombre, String descripcion, double precio_alquiler, int disponibilidad, LocalDateTime fecha_registro, int inventario, Categoria categoria, Tematica tematica, List<Imagen> imagenes) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -25,8 +30,15 @@ public class ProductoSalidaDTO {
         this.disponibilidad = disponibilidad;
         this.fecha_registro = fecha_registro;
         this.inventario = inventario;
-        this.categoria = new CategoriaSalidaDTO(categoria.getId_categoria(), categoria.getDescripcion());
-        this.tematica = new TematicaSalidaDTO(tematica.getId_tematica(), tematica.getDescripcion());
+        this.categoria = new CategoriaSalidaDTO(categoria.getidCategoria(), categoria.getDescripcion());
+        this.tematica = new TematicaSalidaDTO(tematica.getidTematica(), tematica.getDescripcion());
+        this.imagenes = convertirListaImagenesAListaImagenesSalidaDTO(imagenes);
+    }
+
+    public List<ImagenSalidaDTO> convertirListaImagenesAListaImagenesSalidaDTO(List<Imagen> imagenes) {
+        return imagenes.stream()
+                .map(imagen -> new ImagenSalidaDTO(imagen.getIdImagen(), imagen.getUrl()))
+                .toList();
     }
 
     public ProductoSalidaDTO() {}
@@ -101,5 +113,13 @@ public class ProductoSalidaDTO {
 
     public void setTematica(TematicaSalidaDTO tematica) {
         this.tematica = tematica;
+    }
+
+    public List<ImagenSalidaDTO> getImagenes() {
+        return imagenes;
+    }
+
+    public void setImagenes(List<ImagenSalidaDTO> imagenes) {
+        this.imagenes = imagenes;
     }
 }

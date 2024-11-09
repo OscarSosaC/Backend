@@ -1,14 +1,13 @@
 package com.auradecristal.aura_de_cristal.service.impl;
 
-import com.auradecristal.aura_de_cristal.dto.entrada.CategoriaEntradaDTO;
-import com.auradecristal.aura_de_cristal.dto.entrada.ImagenEntradaDTO;
 import com.auradecristal.aura_de_cristal.dto.entrada.ProductoEntradaDTO;
+import com.auradecristal.aura_de_cristal.dto.salida.ImagenSalidaDTO;
 import com.auradecristal.aura_de_cristal.dto.salida.ProductoSalidaDTO;
 import com.auradecristal.aura_de_cristal.entity.Categoria;
+import com.auradecristal.aura_de_cristal.entity.Imagen;
 import com.auradecristal.aura_de_cristal.entity.Producto;
 import com.auradecristal.aura_de_cristal.entity.Tematica;
 import com.auradecristal.aura_de_cristal.repository.CategoriaRepository;
-import com.auradecristal.aura_de_cristal.repository.ImagenRepository;
 import com.auradecristal.aura_de_cristal.repository.ProductoRepository;
 import com.auradecristal.aura_de_cristal.repository.TematicaRepository;
 import com.auradecristal.aura_de_cristal.service.IProdutoService;
@@ -57,9 +56,12 @@ public class ProductoService implements IProdutoService {
 
     @Override
     public ProductoSalidaDTO registrarProducto(ProductoEntradaDTO productoEntradaDTO) {
-        LOGGER.info("ProductoEntradaDTO: " + JsonPrinter.toString(productoEntradaDTO));
+
         Producto producto = modelMapper.map(productoEntradaDTO, Producto.class);
-        LOGGER.info("ProductoEntity: " + JsonPrinter.toString(producto));
+
+        if (productoRepository.findByNombre(producto.getNombre()).isPresent()) {
+            throw new IllegalArgumentException("El producto con el nombre '" + producto.getNombre() + "' ya existe.");
+        }
 
         Categoria categoria = categoriaRepository.findById(productoEntradaDTO.getCategoria_id())
                 .orElseThrow(() -> new EntityNotFoundException("Categoría no encontrada"));
@@ -70,13 +72,16 @@ public class ProductoService implements IProdutoService {
         producto.setCategoria(categoria);
         producto.setTematica(tematica);
 
-        ProductoSalidaDTO productoSalidaDTO = modelMapper.map(productoRepository.save(producto), ProductoSalidaDTO.class);
-
         for (String url : productoEntradaDTO.getImagenes()) {
-            LOGGER.info("Url imagen: {}", url);
-            ImagenEntradaDTO imagenEntradaDTO = new ImagenEntradaDTO(url, productoSalidaDTO.getId());
-            imagenService.registrarImagen(imagenEntradaDTO);
+            Imagen imagen = new Imagen();  // Crear una nueva instancia de Imagen
+            imagen.setUrl(url);  // Asignar la URL a la imagen
+
+            producto.getImagenes().add(imagen);
         }
+
+        Producto productoGuardado = productoRepository.save(producto);
+
+        ProductoSalidaDTO productoSalidaDTO = modelMapper.map(productoGuardado, ProductoSalidaDTO.class);
 
         LOGGER.info("ProductoSalidaDto: " + JsonPrinter.toString(productoSalidaDTO));
         return productoSalidaDTO;
@@ -95,6 +100,15 @@ public class ProductoService implements IProdutoService {
         }
 
         return productoEncontrado;
+    }
+
+    public List<ImagenSalidaDTO> obtenerImagenesXProducto(Long idProducto){
+
+        Producto producto = productoRepository.findById(idProducto)
+                .orElseThrow(() -> new EntityNotFoundException("Producto con id " + idProducto + " no encontrado"));
+
+        ProductoSalidaDTO productoSalidaDTO = modelMapper.map(producto, ProductoSalidaDTO.class);
+        return productoSalidaDTO.getImagenes();
     }
 
     @Override
@@ -120,11 +134,13 @@ public class ProductoService implements IProdutoService {
                     mapper.map(ProductoEntradaDTO::getPrecio_alquiler, Producto::setPrecio_alquiler);
                     mapper.map(ProductoEntradaDTO::getDisponibilidad, Producto::setDisponibilidad);
                     mapper.map(ProductoEntradaDTO::getInventario, Producto::setInventario);
+                    mapper.skip(Producto::setImagenes);
                 });
 
         modelMapper.typeMap(Producto.class, ProductoSalidaDTO.class)
                 .addMappings(mapper -> mapper.map(Producto::getCategoria, ProductoSalidaDTO::setCategoria))
-                .addMappings(mapper -> mapper.map(Producto::getTematica, ProductoSalidaDTO::setTematica));
+                .addMappings(mapper -> mapper.map(Producto::getTematica, ProductoSalidaDTO::setTematica))
+                .addMappings(mapper -> mapper.map(Producto::getImagenes, ProductoSalidaDTO::setImagenes));
     }
 
 }

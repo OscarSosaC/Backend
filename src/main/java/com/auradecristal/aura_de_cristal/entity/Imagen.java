@@ -8,28 +8,24 @@ public class Imagen {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_imagen;
+    private Long idImagen;
     @Column(length = 150)
     private String url;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_producto", referencedColumnName = "id_producto")
-    private Producto producto;
 
     public Imagen() {
     }
 
-    public Imagen(Long id_imagen, String url, Producto producto) {
-        this.id_imagen = id_imagen;
+    public Imagen(Long idImagen, String url) {
+        this.idImagen = idImagen;
         this.url = url;
-        this.producto = producto;
     }
 
-    public Long getId_imagen() {
-        return id_imagen;
+    public Long getidImagen() {
+        return idImagen;
     }
 
-    public void setId_imagen(Long id_imagen) {
-        this.id_imagen = id_imagen;
+    public void setidImagen(Long idImagen) {
+        this.idImagen = idImagen;
     }
 
     public String getUrl() {
@@ -40,11 +36,12 @@ public class Imagen {
         this.url = url;
     }
 
-    public Producto getProducto() {
-        return producto;
+    public Long getIdImagen() {
+        return idImagen;
     }
 
-    public void setProducto(Producto producto) {
-        this.producto = producto;
+    public void setIdImagen(Long idImagen) {
+        this.idImagen = idImagen;
     }
+
 }

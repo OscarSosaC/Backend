@@ -9,14 +9,13 @@ public class ImagenEntradaDTO {
     private String url;
 
     @NotBlank(message = "Debe especificar el id del producto")
-    private Long id_producto;
+    private Long idProducto;
 
     public ImagenEntradaDTO() {
     }
 
-    public ImagenEntradaDTO(String url, Long id_producto) {
+    public ImagenEntradaDTO(String url) {
         this.url = url;
-        this.id_producto = id_producto;
     }
 
     public @NotBlank(message = "Debe especificarse la url del producto") String getUrl() {
@@ -27,11 +26,4 @@ public class ImagenEntradaDTO {
         this.url = url;
     }
 
-    public @NotBlank(message = "Debe especificar el id del producto") Long getId_producto() {
-        return id_producto;
-    }
-
-    public void setId_producto(@NotBlank(message = "Debe especificar el id del producto") Long id_producto) {
-        this.id_producto = id_producto;
-    }
 }

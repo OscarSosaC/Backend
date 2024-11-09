@@ -10,6 +10,8 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -67,10 +69,13 @@ public class CategoriaService implements ICategoriaService {
     @Override
     public void eliminarCategoria(Long id) {
         if (buscarCategoriaXId(id) != null) {
-            categoriaRepository.deleteById(id);
-            LOGGER.info("Categoria eliminado con id: {}", id);
+            try {
+                categoriaRepository.deleteById(id);
+            } catch (DataIntegrityViolationException e) {
+                throw new IllegalArgumentException("No se puede eliminar la categoría porque está siendo utilizada en otro lugar.");
+            }
         } else {
-            LOGGER.info("Categoria no encontrado para eliminar: {}", id);
+            throw new IllegalArgumentException("La categoría con ID " + id + " no existe.");
         }
     }
 }

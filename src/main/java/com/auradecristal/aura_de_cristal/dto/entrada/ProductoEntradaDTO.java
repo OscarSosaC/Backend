@@ -11,7 +11,7 @@ import java.util.List;
 public class ProductoEntradaDTO {
 
     @NotBlank(message = "Debe especificarse el nombre del producto")
-    @Size(max = 100, message = "El nombre debe tener hasta 50 caracteres")
+    @Size(max = 100, message = "El nombre debe tener hasta 100 caracteres")
     private String nombre;
 
     @NotBlank(message = "Debe realizar una descripción del producto")

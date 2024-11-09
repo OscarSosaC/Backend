@@ -8,23 +8,23 @@ public class Tematica {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_tematica;
+    private Long idTematica;
     @Column(length = 50)
     private String descripcion;
 
     public Tematica() { }
 
-    public Tematica(Long id_tematica, String descripcion) {
-        this.id_tematica = id_tematica;
+    public Tematica(Long idTematica, String descripcion) {
+        this.idTematica = idTematica;
         this.descripcion = descripcion;
     }
 
-    public Long getId_tematica() {
-        return id_tematica;
+    public Long getidTematica() {
+        return idTematica;
     }
 
-    public void setId_tematica(Long id_tematica) {
-        this.id_tematica = id_tematica;
+    public void setidTematica(Long idTematica) {
+        this.idTematica = idTematica;
     }
 
     public String getDescripcion() {

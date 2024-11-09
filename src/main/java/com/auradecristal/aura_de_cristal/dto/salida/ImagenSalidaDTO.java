@@ -6,15 +6,13 @@ public class ImagenSalidaDTO {
 
     private Long id;
     private String url;
-    private ProductoSalidaDTO producto;
 
     public ImagenSalidaDTO() {
     }
 
-    public ImagenSalidaDTO(Long id, String url, ProductoSalidaDTO producto) {
+    public ImagenSalidaDTO(Long id, String url) {
         this.id = id;
         this.url = url;
-        this.producto = producto;
     }
 
     public Long getId() {
@@ -33,11 +31,4 @@ public class ImagenSalidaDTO {
         this.url = url;
     }
 
-    public ProductoSalidaDTO getProducto() {
-        return producto;
-    }
-
-    public void setProducto(ProductoSalidaDTO producto) {
-        this.producto = producto;
-    }
 }

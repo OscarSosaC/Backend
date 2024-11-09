@@ -8,23 +8,23 @@ public class Categoria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_categoria;
+    private Long idCategoria;
     @Column(length = 50)
     private String descripcion;
 
     public Categoria() { }
 
-    public Categoria (Long id_categoria, String descripcion) {
-        this.id_categoria = id_categoria;
+    public Categoria (Long idCategoria, String descripcion) {
+        this.idCategoria = idCategoria;
         this.descripcion = descripcion;
     }
 
-    public Long getId_categoria() {
-        return id_categoria;
+    public Long getidCategoria() {
+        return idCategoria;
     }
 
-    public void setId_categoria(Long id_categoria) {
-        this.id_categoria = id_categoria;
+    public void setidCategoria(Long idCategoria) {
+        this.idCategoria = idCategoria;
     }
 
     public String getDescripcion() {

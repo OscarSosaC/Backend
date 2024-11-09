@@ -3,12 +3,10 @@ package com.auradecristal.aura_de_cristal.service.impl;
 import com.auradecristal.aura_de_cristal.dto.entrada.ImagenEntradaDTO;
 import com.auradecristal.aura_de_cristal.dto.salida.ImagenSalidaDTO;
 import com.auradecristal.aura_de_cristal.entity.Imagen;
-import com.auradecristal.aura_de_cristal.entity.Producto;
 import com.auradecristal.aura_de_cristal.repository.ImagenRepository;
 import com.auradecristal.aura_de_cristal.repository.ProductoRepository;
 import com.auradecristal.aura_de_cristal.service.IImagenService;
 import com.auradecristal.aura_de_cristal.util.JsonPrinter;
-import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ImagenService implements IImagenService {
@@ -49,11 +48,6 @@ public class ImagenService implements IImagenService {
         LOGGER.info("ImagenEntradaDTO: " + JsonPrinter.toString(imagenEntradaDTO));
         Imagen imagen = modelMapper.map(imagenEntradaDTO, Imagen.class);
         LOGGER.info("ImagenEntity: " + JsonPrinter.toString(imagen));
-
-        Producto producto = productoRepository.findById(imagenEntradaDTO.getId_producto())
-                .orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
-
-        imagen.setProducto(producto);
 
         ImagenSalidaDTO imagenSalidaDTO = modelMapper.map(imagenRepository.save(imagen), ImagenSalidaDTO.class);
         LOGGER.info("ImagenSalidaDTO: " + JsonPrinter.toString(imagenSalidaDTO));
