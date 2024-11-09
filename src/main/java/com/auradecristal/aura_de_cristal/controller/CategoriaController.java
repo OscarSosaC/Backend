@@ -1,5 +1,4 @@
 package com.auradecristal.aura_de_cristal.controller;
-
 import com.auradecristal.aura_de_cristal.dto.entrada.CategoriaEntradaDTO;
 import com.auradecristal.aura_de_cristal.dto.salida.CategoriaSalidaDTO;
 import com.auradecristal.aura_de_cristal.service.impl.CategoriaService;
@@ -13,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("categorias")
+@CrossOrigin
 public class CategoriaController {
 
     @Autowired
@@ -32,7 +32,7 @@ public class CategoriaController {
         return new ResponseEntity<>(categoriaService.registrarCategoria(categoriaEntradaDTO), HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/buscar/{id}")
     public ResponseEntity<CategoriaSalidaDTO> buscarCategoriaXId (@PathVariable Long id) {
         return new ResponseEntity<>(categoriaService.buscarCategoriaXId(id), HttpStatus.OK);
     }
