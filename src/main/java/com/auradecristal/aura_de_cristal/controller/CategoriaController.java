@@ -2,7 +2,10 @@ package com.auradecristal.aura_de_cristal.controller;
 import com.auradecristal.aura_de_cristal.dto.entrada.CategoriaEntradaDTO;
 import com.auradecristal.aura_de_cristal.dto.salida.CategoriaSalidaDTO;
 import com.auradecristal.aura_de_cristal.service.impl.CategoriaService;
+import com.auradecristal.aura_de_cristal.util.JsonPrinter;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +20,7 @@ public class CategoriaController {
 
     @Autowired
     private CategoriaService categoriaService;
+    private final Logger LOGGER = LoggerFactory.getLogger(CategoriaController.class);
 
     public CategoriaController(CategoriaService categoriaService) {
         this.categoriaService = categoriaService;
@@ -29,6 +33,7 @@ public class CategoriaController {
 
     @PostMapping("/registrar")
     public ResponseEntity<CategoriaSalidaDTO> registrarCategoria (@Valid @RequestBody CategoriaEntradaDTO categoriaEntradaDTO) {
+        LOGGER.info("Peticion POST registrar: {}", JsonPrinter.toString(categoriaEntradaDTO));
         return new ResponseEntity<>(categoriaService.registrarCategoria(categoriaEntradaDTO), HttpStatus.CREATED);
     }
 
