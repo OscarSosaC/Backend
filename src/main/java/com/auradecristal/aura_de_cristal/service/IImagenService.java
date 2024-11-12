@@ -10,4 +10,5 @@ public interface IImagenService {
     ImagenSalidaDTO registrarImagen(ImagenEntradaDTO imagenEntradaDTO);
     ImagenSalidaDTO buscarImagenXId(Long id);
     void eliminarImagen(Long id);
+    ImagenSalidaDTO actualizarImagen(ImagenEntradaDTO imagenEntradaDTO, Long id);
 }

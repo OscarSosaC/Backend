@@ -6,6 +6,7 @@ import com.auradecristal.aura_de_cristal.entity.Tematica;
 import com.auradecristal.aura_de_cristal.repository.TematicaRepository;
 import com.auradecristal.aura_de_cristal.service.ITematicaService;
 import com.auradecristal.aura_de_cristal.util.JsonPrinter;
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,4 +74,19 @@ public class TematicaService implements ITematicaService {
             LOGGER.info("Tematica no encontrado para eliminar: {}", id);
         }
     }
+
+    @Override
+    public TematicaSalidaDTO actualizarTematica(TematicaEntradaDTO tematicaEntradaDTO, Long id) {
+
+        Tematica tematicaAActualizar = tematicaRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("La temática con id '" + id + "' no existe."));
+        tematicaAActualizar.setDescripcion(tematicaEntradaDTO.getDescripcion());
+        tematicaRepository.save(tematicaAActualizar);
+
+        TematicaSalidaDTO tematicaSalidaDTO = modelMapper.map(tematicaAActualizar, TematicaSalidaDTO.class);
+        LOGGER.warn("Temática actualizada: {}", JsonPrinter.toString(tematicaSalidaDTO));
+
+        return tematicaSalidaDTO;
+    }
+
 }

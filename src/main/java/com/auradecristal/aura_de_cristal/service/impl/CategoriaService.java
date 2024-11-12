@@ -6,6 +6,7 @@ import com.auradecristal.aura_de_cristal.entity.Categoria;
 import com.auradecristal.aura_de_cristal.repository.CategoriaRepository;
 import com.auradecristal.aura_de_cristal.service.ICategoriaService;
 import com.auradecristal.aura_de_cristal.util.JsonPrinter;
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,5 +78,18 @@ public class CategoriaService implements ICategoriaService {
         } else {
             throw new IllegalArgumentException("La categoría con ID " + id + " no existe.");
         }
+    }
+
+    @Override
+    public CategoriaSalidaDTO actualizarCategoria(CategoriaEntradaDTO categoriaEntradaDTO, Long id) {
+
+        Categoria categoriaAActualizar = categoriaRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("La categoría con id '" + id + "' no existe."));
+        categoriaAActualizar.setDescripcion(categoriaEntradaDTO.getDescripcion());
+        categoriaRepository.save(categoriaAActualizar);
+
+        CategoriaSalidaDTO categoriaSalidaDTO = modelMapper.map(categoriaAActualizar, CategoriaSalidaDTO.class);
+        LOGGER.warn("Categoría actualizada: {}", JsonPrinter.toString(categoriaSalidaDTO));
+        return categoriaSalidaDTO;
     }
 }

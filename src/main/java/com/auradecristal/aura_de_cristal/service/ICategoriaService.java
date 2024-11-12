@@ -11,4 +11,5 @@ public interface ICategoriaService {
     CategoriaSalidaDTO registrarCategoria(CategoriaEntradaDTO categoriaEntradaDTO);
     CategoriaSalidaDTO buscarCategoriaXId(Long id);
     void eliminarCategoria(Long id);
+    CategoriaSalidaDTO actualizarCategoria(CategoriaEntradaDTO categoriaEntradaDTO, Long id);
 }

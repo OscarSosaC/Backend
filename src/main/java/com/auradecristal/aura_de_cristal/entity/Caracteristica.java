@@ -12,7 +12,6 @@ public class Caracteristica {
     private Long idCaracteristica;
     @Column(length = 150)
     private String descripcion;
-
     @ManyToMany(mappedBy = "caracteristicas")
     private Set<Producto> productos;
 

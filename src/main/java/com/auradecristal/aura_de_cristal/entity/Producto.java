@@ -30,8 +30,8 @@ public class Producto {
     @ManyToMany
     @JoinTable(
             name = "producto_caracteristica",
-            joinColumns = @JoinColumn(name = "producto_id"), // Columna para Producto
-            inverseJoinColumns = @JoinColumn(name = "caracteristica_id") // Columna para Caracteristica
+            joinColumns = @JoinColumn(name = "producto_id"),
+            inverseJoinColumns = @JoinColumn(name = "caracteristica_id")
     )
     private Set<Caracteristica> caracteristicas;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)

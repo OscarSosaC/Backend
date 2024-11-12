@@ -2,7 +2,7 @@ package com.auradecristal.aura_de_cristal.controller;
 import com.auradecristal.aura_de_cristal.dto.entrada.CategoriaEntradaDTO;
 import com.auradecristal.aura_de_cristal.dto.salida.CategoriaSalidaDTO;
 import com.auradecristal.aura_de_cristal.service.impl.CategoriaService;
-import com.auradecristal.aura_de_cristal.util.JsonPrinter;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +33,6 @@ public class CategoriaController {
 
     @PostMapping("/registrar")
     public ResponseEntity<CategoriaSalidaDTO> registrarCategoria (@Valid @RequestBody CategoriaEntradaDTO categoriaEntradaDTO) {
-        LOGGER.info("Peticion POST registrar: {}", JsonPrinter.toString(categoriaEntradaDTO));
         return new ResponseEntity<>(categoriaService.registrarCategoria(categoriaEntradaDTO), HttpStatus.CREATED);
     }
 
@@ -49,6 +48,18 @@ public class CategoriaController {
             return ResponseEntity.ok("Categoría eliminada con éxito.");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoriaSalidaDTO> actualizarCategoria(@RequestBody CategoriaEntradaDTO categoriaEntradaDTO, @PathVariable Long id) {
+        try {
+            CategoriaSalidaDTO categoriaActualizada = categoriaService.actualizarCategoria(categoriaEntradaDTO, id);
+            return ResponseEntity.ok(categoriaActualizada);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 }

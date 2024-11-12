@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
 
@@ -42,6 +43,18 @@ public class ImagenController {
     public ResponseEntity<?> eliminarImagen (@RequestParam Long id) {
         imagenService.eliminarImagen(id);
         return new ResponseEntity<>("Imagen eliminada correctamente", HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ImagenSalidaDTO> actualizarImagen(@RequestBody ImagenEntradaDTO imagenEntradaDTO, @PathVariable Long id) {
+        try {
+            ImagenSalidaDTO imagenActualizada = imagenService.actualizarImagen(imagenEntradaDTO, id);
+            return ResponseEntity.ok(imagenActualizada);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
 }

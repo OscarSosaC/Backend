@@ -3,6 +3,7 @@ package com.auradecristal.aura_de_cristal.service.impl;
 import com.auradecristal.aura_de_cristal.dto.entrada.ImagenEntradaDTO;
 import com.auradecristal.aura_de_cristal.dto.salida.ImagenSalidaDTO;
 import com.auradecristal.aura_de_cristal.entity.Imagen;
+import com.auradecristal.aura_de_cristal.repository.CaracteristicaRepository;
 import com.auradecristal.aura_de_cristal.repository.ImagenRepository;
 import com.auradecristal.aura_de_cristal.repository.ProductoRepository;
 import com.auradecristal.aura_de_cristal.service.IImagenService;
@@ -10,6 +11,7 @@ import com.auradecristal.aura_de_cristal.util.JsonPrinter;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -78,4 +80,19 @@ public class ImagenService implements IImagenService {
             LOGGER.info("Imagen no encontrada para eliminar: {}", id);
         }
     }
+
+    @Override
+    public ImagenSalidaDTO actualizarImagen(ImagenEntradaDTO imagenEntradaDTO, Long id) {
+        Imagen imagenAActualizar = imagenRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("La imagen con id '" + id + "' no existe."));
+
+        imagenAActualizar.setUrl(imagenEntradaDTO.getUrl());
+        imagenRepository.save(imagenAActualizar);
+
+        ImagenSalidaDTO imagenSalidaDTO = modelMapper.map(imagenAActualizar, ImagenSalidaDTO.class);
+        LOGGER.warn("Imagen actualizada: {}", JsonPrinter.toString(imagenSalidaDTO));
+
+        return imagenSalidaDTO;
+    }
+
 }

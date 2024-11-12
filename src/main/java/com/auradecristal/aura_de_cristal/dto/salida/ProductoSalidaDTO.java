@@ -1,9 +1,8 @@
 package com.auradecristal.aura_de_cristal.dto.salida;
 
+import com.auradecristal.aura_de_cristal.dto.entrada.CategoriaEntradaDTO;
 import com.auradecristal.aura_de_cristal.dto.entrada.ImagenEntradaDTO;
-import com.auradecristal.aura_de_cristal.entity.Categoria;
-import com.auradecristal.aura_de_cristal.entity.Imagen;
-import com.auradecristal.aura_de_cristal.entity.Tematica;
+import com.auradecristal.aura_de_cristal.entity.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,8 +20,9 @@ public class ProductoSalidaDTO {
     private CategoriaSalidaDTO categoria;
     private TematicaSalidaDTO tematica;
     private List<ImagenSalidaDTO> imagenes;
+    private List<CaracteristicaSalidaDTO> caracteristicas;
 
-    public ProductoSalidaDTO(Long id, String nombre, String descripcion, double precio_alquiler, int disponibilidad, LocalDateTime fecha_registro, int inventario, Categoria categoria, Tematica tematica, List<Imagen> imagenes) {
+    public ProductoSalidaDTO(Long id, String nombre, String descripcion, double precio_alquiler, int disponibilidad, LocalDateTime fecha_registro, int inventario, Categoria categoria, Tematica tematica, List<Imagen> imagenes, List<Caracteristica> caracteristicas) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -33,11 +33,23 @@ public class ProductoSalidaDTO {
         this.categoria = new CategoriaSalidaDTO(categoria.getidCategoria(), categoria.getDescripcion());
         this.tematica = new TematicaSalidaDTO(tematica.getidTematica(), tematica.getDescripcion());
         this.imagenes = convertirListaImagenesAListaImagenesSalidaDTO(imagenes);
+        this.caracteristicas = convertirListaCaracteristicasAListaCaracteristicaSalidaDTO(caracteristicas);
     }
 
     public List<ImagenSalidaDTO> convertirListaImagenesAListaImagenesSalidaDTO(List<Imagen> imagenes) {
         return imagenes.stream()
                 .map(imagen -> new ImagenSalidaDTO(imagen.getIdImagen(), imagen.getUrl()))
+                .toList();
+    }
+
+    public List<CaracteristicaSalidaDTO> convertirListaCaracteristicasAListaCaracteristicaSalidaDTO(List<Caracteristica> caracteristicas) {
+        return caracteristicas.stream()
+                .map(caracteristica -> new CaracteristicaSalidaDTO(
+                        caracteristica.getIdCaracteristica(),
+                        caracteristica.getDescripcion(),
+                        caracteristica.getProductos().stream()
+                                .map(Producto::getIdProducto)
+                                .collect(Collectors.toList())))
                 .toList();
     }
 
@@ -121,5 +133,13 @@ public class ProductoSalidaDTO {
 
     public void setImagenes(List<ImagenSalidaDTO> imagenes) {
         this.imagenes = imagenes;
+    }
+
+    public List<CaracteristicaSalidaDTO> getCaracteristicas() {
+        return caracteristicas;
+    }
+
+    public void setCaracteristicas(List<CaracteristicaSalidaDTO> caracteristicas) {
+        this.caracteristicas = caracteristicas;
     }
 }
