@@ -1,12 +1,11 @@
 package com.auradecristal.aura_de_cristal.service.impl;
 
 import com.auradecristal.aura_de_cristal.dto.entrada.ProductoEntradaDTO;
+import com.auradecristal.aura_de_cristal.dto.salida.CaracteristicaSalidaDTO;
 import com.auradecristal.aura_de_cristal.dto.salida.ImagenSalidaDTO;
 import com.auradecristal.aura_de_cristal.dto.salida.ProductoSalidaDTO;
-import com.auradecristal.aura_de_cristal.entity.Categoria;
-import com.auradecristal.aura_de_cristal.entity.Imagen;
-import com.auradecristal.aura_de_cristal.entity.Producto;
-import com.auradecristal.aura_de_cristal.entity.Tematica;
+import com.auradecristal.aura_de_cristal.entity.*;
+import com.auradecristal.aura_de_cristal.repository.CaracteristicaRepository;
 import com.auradecristal.aura_de_cristal.repository.CategoriaRepository;
 import com.auradecristal.aura_de_cristal.repository.ProductoRepository;
 import com.auradecristal.aura_de_cristal.repository.TematicaRepository;
@@ -18,8 +17,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductoService implements IProdutoService {
@@ -31,15 +33,18 @@ public class ProductoService implements IProdutoService {
     @Autowired
     private TematicaRepository tematicaRepository;
     @Autowired
+    private CaracteristicaRepository caracteristicaRepository;
+    @Autowired
     private ImagenService imagenService;
     @Autowired
     private ModelMapper modelMapper;
     private final Logger LOGGER = LoggerFactory.getLogger(ProductoService.class);
 
-    public ProductoService(ProductoRepository productoRepository, CategoriaRepository categoriaRepository, TematicaRepository tematicaRepository, ModelMapper modelMapper) {
+    public ProductoService(ProductoRepository productoRepository, CategoriaRepository categoriaRepository, TematicaRepository tematicaRepository,CaracteristicaRepository caracteristicaRepository, ModelMapper modelMapper) {
         this.tematicaRepository = tematicaRepository;
         this.categoriaRepository = categoriaRepository;
         this.productoRepository = productoRepository;
+        this.caracteristicaRepository = caracteristicaRepository;
         this.modelMapper = modelMapper;
         configureMapping();
     }
@@ -52,6 +57,13 @@ public class ProductoService implements IProdutoService {
                 .toList();
         LOGGER.info("Listado de todos los productos: {}", JsonPrinter.toString(productos));
         return productos;
+    }
+
+    public List<ProductoSalidaDTO> obtenerProductosAleatorios() {
+        List<Producto> productosAleatorios = productoRepository.findRandomProducts();
+        return productosAleatorios.stream()
+                .map(producto -> modelMapper.map(producto, ProductoSalidaDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -77,6 +89,12 @@ public class ProductoService implements IProdutoService {
             imagen.setUrl(url);  // Asignar la URL a la imagen
 
             producto.getImagenes().add(imagen);
+        }
+
+        for (Long id : productoEntradaDTO.getCaracteristicaIds()) {
+            Caracteristica caracteristica = caracteristicaRepository.findById(id)
+                   .orElseThrow(() -> new EntityNotFoundException("Característica con id " + id + " no encontrada"));
+            producto.getCaracteristicas().add(caracteristica);
         }
 
         Producto productoGuardado = productoRepository.save(producto);
@@ -112,6 +130,16 @@ public class ProductoService implements IProdutoService {
     }
 
     @Override
+    public List<CaracteristicaSalidaDTO> obtenerCaracteristicasXProducto(Long idProducto){
+
+        Producto producto = productoRepository.findById(idProducto)
+                .orElseThrow(() -> new EntityNotFoundException("Producto con id " + idProducto + " no encontrado"));
+
+        ProductoSalidaDTO productoSalidaDTO = modelMapper.map(producto, ProductoSalidaDTO.class);
+        return productoSalidaDTO.getCaracteristicas();
+    }
+
+    @Override
     public void eliminarProducto(Long id) {
         if (buscarProductoXId(id) != null) {
             productoRepository.deleteById(id);
@@ -121,9 +149,48 @@ public class ProductoService implements IProdutoService {
         }
     }
 
+    @Override
+    public ProductoSalidaDTO actualizarProducto(ProductoEntradaDTO productoEntradaDTO, Long id) {
+
+        Producto productoAActualizar = productoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("El producto con id '" + id + "' no existe."));
+
+        productoAActualizar.setNombre(productoEntradaDTO.getNombre());
+        productoAActualizar.setDescripcion(productoEntradaDTO.getDescripcion());
+        productoAActualizar.setPrecio_alquiler(productoEntradaDTO.getPrecio_alquiler());
+        productoAActualizar.setDisponibilidad(productoEntradaDTO.getDisponibilidad());
+        productoAActualizar.setInventario(productoEntradaDTO.getInventario());
+
+        productoRepository.save(productoAActualizar);
+
+        ProductoSalidaDTO productoSalidaDTO = modelMapper.map(productoAActualizar, ProductoSalidaDTO.class);
+        LOGGER.warn("Producto actualizado: {}", JsonPrinter.toString(productoSalidaDTO));
+
+        return productoSalidaDTO;
+    }
+
+    @Transactional
+    public ProductoSalidaDTO agregarCaracteristicas(Long productoId, List<Long> caracteristicaIds) throws Exception {
+        Producto producto = productoRepository.findById(productoId)
+                .orElseThrow(() -> new Exception("Producto no encontrado con id: " + productoId));
+        List<Caracteristica> caracteristicas = caracteristicaRepository.findAllById(caracteristicaIds);
+
+        producto.getCaracteristicas().addAll(new HashSet<>(caracteristicas));
+        producto = productoRepository.save(producto);
+
+        ProductoSalidaDTO productoSalidaDTO = modelMapper.map(producto, ProductoSalidaDTO.class);
+        List<CaracteristicaSalidaDTO> caracteristicasSalidaDTO = producto.getCaracteristicas().stream()
+                .map(caracteristica -> modelMapper.map(caracteristica, CaracteristicaSalidaDTO.class))
+                .collect(Collectors.toList());
+        productoSalidaDTO.setCaracteristicas(caracteristicasSalidaDTO);
+
+        return productoSalidaDTO;
+    }
+
+
     /**
-     * Configuracion del mapper para asignar el valor del atributo Categoria y Tematica para personalizar
-     * cómo los objetos se convierten entre sí, específicamente entre ProductoEntradaDto y
+     * Configuracion del mapper para asignar el valor del atributo Categoria, Tematica y Caracteristica
+     * para personalizar cómo los objetos se convierten entre sí, específicamente entre ProductoEntradaDto y
      * Producto, y entre Producto y ProductoSalidaDto.
      */
     private void configureMapping() {
@@ -134,13 +201,16 @@ public class ProductoService implements IProdutoService {
                     mapper.map(ProductoEntradaDTO::getPrecio_alquiler, Producto::setPrecio_alquiler);
                     mapper.map(ProductoEntradaDTO::getDisponibilidad, Producto::setDisponibilidad);
                     mapper.map(ProductoEntradaDTO::getInventario, Producto::setInventario);
+                    mapper.skip(Producto::setCaracteristicas);
                     mapper.skip(Producto::setImagenes);
+
                 });
 
         modelMapper.typeMap(Producto.class, ProductoSalidaDTO.class)
                 .addMappings(mapper -> mapper.map(Producto::getCategoria, ProductoSalidaDTO::setCategoria))
                 .addMappings(mapper -> mapper.map(Producto::getTematica, ProductoSalidaDTO::setTematica))
-                .addMappings(mapper -> mapper.map(Producto::getImagenes, ProductoSalidaDTO::setImagenes));
+                .addMappings(mapper -> mapper.map(Producto::getImagenes, ProductoSalidaDTO::setImagenes))
+                .addMappings(mapper -> mapper.map(Producto::getCaracteristicas, ProductoSalidaDTO::setCaracteristicas));
     }
 
 }

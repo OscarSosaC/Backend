@@ -36,7 +36,10 @@ public class ProductoEntradaDTO {
     @NotNull(message = "Debe ingresar al menos una imagen para el producto")
     private List<String> imagenes;
 
-    public ProductoEntradaDTO(String nombre, String descripcion, double precio_alquiler, int disponibilidad, int inventario, Long categoria_id, Long tematica_id, List<String> imagenes) {
+    @NotNull(message = "Debe ingresar al menos una caracteristica para el producto")
+    private List<Long> caracteristicaIds;
+
+    public ProductoEntradaDTO(String nombre, String descripcion, double precio_alquiler, int disponibilidad, int inventario, Long categoria_id, Long tematica_id, List<String> imagenes, List<Long> caracteristicaIds) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio_alquiler = precio_alquiler;
@@ -45,8 +48,8 @@ public class ProductoEntradaDTO {
         this.categoria_id = categoria_id;
         this.tematica_id = tematica_id;
         this.imagenes = imagenes;
+        this.caracteristicaIds = caracteristicaIds;
     }
-
     public ProductoEntradaDTO () {}
 
     public String getNombre() {
@@ -111,5 +114,13 @@ public class ProductoEntradaDTO {
 
     public void setImagenes(@NotNull(message = "Debe ingresar al menos una imagen para el producto") List<String> imagenes) {
         this.imagenes = imagenes;
+    }
+
+    public @NotNull(message = "Debe ingresar al menos una caracteristica para el producto") List<Long> getCaracteristicaIds() {
+        return caracteristicaIds;
+    }
+
+    public void setCaracteristicaIds(@NotNull(message = "Debe ingresar al menos una caracteristica para el producto") List<Long> caracteristicaIds) {
+        this.caracteristicaIds = caracteristicaIds;
     }
 }

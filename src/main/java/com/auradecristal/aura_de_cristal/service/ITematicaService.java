@@ -11,4 +11,5 @@ public interface ITematicaService {
     TematicaSalidaDTO registrarTematica(TematicaEntradaDTO tematicaEntradaDTO);
     TematicaSalidaDTO buscarTematicaXId(Long id);
     void eliminarTematica(Long id);
+    TematicaSalidaDTO actualizarTematica(TematicaEntradaDTO tematicaEntradaDTO, Long id);
 }

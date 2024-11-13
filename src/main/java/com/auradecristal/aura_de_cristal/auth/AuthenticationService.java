@@ -1,7 +1,7 @@
 package com.auradecristal.aura_de_cristal.auth;
 
 import com.auradecristal.aura_de_cristal.config.JwtService;
-import com.auradecristal.aura_de_cristal.entity.Role;
+import com.auradecristal.aura_de_cristal.entity.Rol;
 import com.auradecristal.aura_de_cristal.entity.Usuario;
 import com.auradecristal.aura_de_cristal.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class AuthenticationService {
                 .apellido(request.getApellido())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .rol(Role.USER)
+                .rol(Rol.USER)
                 .build();
         Optional<Usuario> usuarioBD = usuarioRepository.findByEmail(usuario.getEmail());
         if(usuarioBD.isPresent()){

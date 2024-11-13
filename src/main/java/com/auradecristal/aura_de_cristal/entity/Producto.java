@@ -12,9 +12,9 @@ public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idProducto;
-    @Column(length = 50)
-    private String nombre;
     @Column(length = 100)
+    private String nombre;
+    @Column(length = 1000)
     private String descripcion;
     private double precio_alquiler;
     private int disponibilidad;
@@ -30,8 +30,8 @@ public class Producto {
     @ManyToMany
     @JoinTable(
             name = "producto_caracteristica",
-            joinColumns = @JoinColumn(name = "producto_id"), // Columna para Producto
-            inverseJoinColumns = @JoinColumn(name = "caracteristica_id") // Columna para Caracteristica
+            joinColumns = @JoinColumn(name = "producto_id"),
+            inverseJoinColumns = @JoinColumn(name = "caracteristica_id")
     )
     private Set<Caracteristica> caracteristicas;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
