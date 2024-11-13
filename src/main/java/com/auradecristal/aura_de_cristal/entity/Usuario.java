@@ -28,6 +28,10 @@ public class Usuario implements UserDetails {
         return apellido;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     private String nombre;
     private String apellido;
     private String email;
@@ -69,6 +73,11 @@ public class Usuario implements UserDetails {
     @Override
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario {"+this.nombre + " - " +this.apellido + " - " +this.email + " - " +this.password  + "}";
     }
 }
 

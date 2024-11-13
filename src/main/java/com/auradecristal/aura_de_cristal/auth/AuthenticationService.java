@@ -36,14 +36,23 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse login(AuthenticationRequest request){
+        System.out.println("40 find by email" + request);
+        System.out.println("40 find by email" + request.getEmail()+ "---" + request.getPassword());
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()
                 )
         );
+        System.out.println("45 find by email");
+
         Usuario usuario = usuarioRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("No existe el usuario"));
+                .orElseThrow(() -> {
+                    System.out.println("exception in find by email");
+                    return new RuntimeException("No existe el usuario");
+                });
+        System.out.println("call login  with: " + usuario);
 
         String token = jwtService.generateToken(usuario);
         return AuthenticationResponse.builder()
