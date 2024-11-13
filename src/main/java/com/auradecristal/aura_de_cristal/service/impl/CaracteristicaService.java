@@ -2,9 +2,11 @@ package com.auradecristal.aura_de_cristal.service.impl;
 
 import com.auradecristal.aura_de_cristal.dto.entrada.CaracteristicaEntradaDTO;
 import com.auradecristal.aura_de_cristal.dto.entrada.CategoriaEntradaDTO;
+import com.auradecristal.aura_de_cristal.dto.entrada.ProductoEntradaDTO;
 import com.auradecristal.aura_de_cristal.dto.salida.CaracteristicaSalidaDTO;
 import com.auradecristal.aura_de_cristal.dto.salida.ProductoSalidaDTO;
 import com.auradecristal.aura_de_cristal.entity.Caracteristica;
+import com.auradecristal.aura_de_cristal.entity.Producto;
 import com.auradecristal.aura_de_cristal.repository.CaracteristicaRepository;
 import com.auradecristal.aura_de_cristal.service.ICaracteristicaService;
 import com.auradecristal.aura_de_cristal.util.JsonPrinter;
@@ -15,7 +17,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class CaracteristicaService implements ICaracteristicaService {
@@ -29,6 +34,7 @@ public class CaracteristicaService implements ICaracteristicaService {
     public CaracteristicaService(CaracteristicaRepository caracteristicaRepository, ModelMapper modelMapper) {
         this.caracteristicaRepository = caracteristicaRepository;
         this.modelMapper = modelMapper;
+        configureMapping();
     }
 
 
@@ -75,7 +81,7 @@ public class CaracteristicaService implements ICaracteristicaService {
         Caracteristica caracteristicaExistente = caracteristicaRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("La característica con id '" + id + "' no existe."));
         caracteristicaExistente.setDescripcion(caracteristicaEntradaDTO.getDescripcion());
-
+        caracteristicaExistente.setNombre(caracteristicaEntradaDTO.getNombre());
         Caracteristica caracteristicaActualizada = caracteristicaRepository.save(caracteristicaExistente);
 
         CaracteristicaSalidaDTO caracteristicaSalidaDTO = modelMapper.map(caracteristicaActualizada, CaracteristicaSalidaDTO.class);
@@ -83,4 +89,23 @@ public class CaracteristicaService implements ICaracteristicaService {
 
         return caracteristicaSalidaDTO;
     }
+
+    /**
+     * Configuracion del mapper para asignar el valor del atributo Producto para personalizar
+     * cómo los objetos se convierten entre sí, específicamente entre CaracteristicaEntradaDto y
+     * Caracteristica, y entre Caracteristica y CaracteristicaSalidaDto.
+     */
+    private void configureMapping() {
+        modelMapper.typeMap(CaracteristicaSalidaDTO.class, Caracteristica.class)
+                .addMappings(mapper -> {
+                    mapper.map(CaracteristicaSalidaDTO::getNombre, Caracteristica::setNombre);
+                    mapper.map(CaracteristicaSalidaDTO::getDescripcion, Caracteristica::setDescripcion);
+                });
+
+            modelMapper.typeMap(Caracteristica.class, CaracteristicaSalidaDTO.class)
+                .addMappings(mapper -> mapper.map(Caracteristica::getNombre, CaracteristicaSalidaDTO::setNombre))
+                .addMappings(mapper -> mapper.map(Caracteristica::getDescripcion, CaracteristicaSalidaDTO::setDescripcion))
+                .addMappings(mapper -> mapper.map(Caracteristica::getProductosIds, CaracteristicaSalidaDTO::setProductoIds));
+    }
 }
+

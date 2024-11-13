@@ -1,6 +1,7 @@
 package com.auradecristal.aura_de_cristal.controller;
 
 import com.auradecristal.aura_de_cristal.dto.entrada.ProductoEntradaDTO;
+import com.auradecristal.aura_de_cristal.dto.salida.CaracteristicaSalidaDTO;
 import com.auradecristal.aura_de_cristal.dto.salida.ImagenSalidaDTO;
 import com.auradecristal.aura_de_cristal.dto.salida.ProductoSalidaDTO;
 import com.auradecristal.aura_de_cristal.service.impl.ProductoService;
@@ -39,6 +40,11 @@ public class ProductoController {
     @GetMapping("/imagenes/{idProducto}")
     public List<ImagenSalidaDTO> obtenerImagenesPorProducto(@PathVariable Long idProducto) {
         return productoService.obtenerImagenesXProducto(idProducto);
+    }
+
+    @GetMapping("/caracteristicas/{idProducto}")
+    public List<CaracteristicaSalidaDTO> obtenerCaracteristicasPorProducto(@PathVariable Long idProducto) {
+        return productoService.obtenerCaracteristicasXProducto(idProducto);
     }
 
     @PostMapping("/registrar")

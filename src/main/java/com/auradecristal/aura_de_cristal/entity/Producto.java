@@ -12,9 +12,9 @@ public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idProducto;
-    @Column(length = 50)
-    private String nombre;
     @Column(length = 100)
+    private String nombre;
+    @Column(length = 1000)
     private String descripcion;
     private double precio_alquiler;
     private int disponibilidad;

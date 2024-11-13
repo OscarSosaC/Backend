@@ -91,6 +91,12 @@ public class ProductoService implements IProdutoService {
             producto.getImagenes().add(imagen);
         }
 
+        for (Long id : productoEntradaDTO.getCaracteristicaIds()) {
+            Caracteristica caracteristica = caracteristicaRepository.findById(id)
+                   .orElseThrow(() -> new EntityNotFoundException("Característica con id " + id + " no encontrada"));
+            producto.getCaracteristicas().add(caracteristica);
+        }
+
         Producto productoGuardado = productoRepository.save(producto);
 
         ProductoSalidaDTO productoSalidaDTO = modelMapper.map(productoGuardado, ProductoSalidaDTO.class);
@@ -121,6 +127,16 @@ public class ProductoService implements IProdutoService {
 
         ProductoSalidaDTO productoSalidaDTO = modelMapper.map(producto, ProductoSalidaDTO.class);
         return productoSalidaDTO.getImagenes();
+    }
+
+    @Override
+    public List<CaracteristicaSalidaDTO> obtenerCaracteristicasXProducto(Long idProducto){
+
+        Producto producto = productoRepository.findById(idProducto)
+                .orElseThrow(() -> new EntityNotFoundException("Producto con id " + idProducto + " no encontrado"));
+
+        ProductoSalidaDTO productoSalidaDTO = modelMapper.map(producto, ProductoSalidaDTO.class);
+        return productoSalidaDTO.getCaracteristicas();
     }
 
     @Override
@@ -173,8 +189,8 @@ public class ProductoService implements IProdutoService {
 
 
     /**
-     * Configuracion del mapper para asignar el valor del atributo Categoria y Tematica para personalizar
-     * cómo los objetos se convierten entre sí, específicamente entre ProductoEntradaDto y
+     * Configuracion del mapper para asignar el valor del atributo Categoria, Tematica y Caracteristica
+     * para personalizar cómo los objetos se convierten entre sí, específicamente entre ProductoEntradaDto y
      * Producto, y entre Producto y ProductoSalidaDto.
      */
     private void configureMapping() {
@@ -185,13 +201,16 @@ public class ProductoService implements IProdutoService {
                     mapper.map(ProductoEntradaDTO::getPrecio_alquiler, Producto::setPrecio_alquiler);
                     mapper.map(ProductoEntradaDTO::getDisponibilidad, Producto::setDisponibilidad);
                     mapper.map(ProductoEntradaDTO::getInventario, Producto::setInventario);
+                    mapper.skip(Producto::setCaracteristicas);
                     mapper.skip(Producto::setImagenes);
+
                 });
 
         modelMapper.typeMap(Producto.class, ProductoSalidaDTO.class)
                 .addMappings(mapper -> mapper.map(Producto::getCategoria, ProductoSalidaDTO::setCategoria))
                 .addMappings(mapper -> mapper.map(Producto::getTematica, ProductoSalidaDTO::setTematica))
-                .addMappings(mapper -> mapper.map(Producto::getImagenes, ProductoSalidaDTO::setImagenes));
+                .addMappings(mapper -> mapper.map(Producto::getImagenes, ProductoSalidaDTO::setImagenes))
+                .addMappings(mapper -> mapper.map(Producto::getCaracteristicas, ProductoSalidaDTO::setCaracteristicas));
     }
 
 }

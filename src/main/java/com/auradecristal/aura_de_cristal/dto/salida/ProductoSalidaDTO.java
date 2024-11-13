@@ -47,6 +47,7 @@ public class ProductoSalidaDTO {
                 .map(caracteristica -> new CaracteristicaSalidaDTO(
                         caracteristica.getIdCaracteristica(),
                         caracteristica.getDescripcion(),
+                        caracteristica.getNombre(),
                         caracteristica.getProductos().stream()
                                 .map(Producto::getIdProducto)
                                 .collect(Collectors.toList())))
