@@ -23,8 +23,12 @@ public class UsuarioController {
     }
 
     @GetMapping("/buscar/{email}")
-    public ResponseEntity<UsuarioSalidaDTO> buscarUsuarioXEmail(@PathVariable String email) {
+    public ResponseEntity<?> buscarUsuarioXEmail(@PathVariable String email) {
         System.out.println("call buscar with email: " + email);
-        return new ResponseEntity<>(usuarioService.buscarUsuarioXEmail(email), HttpStatus.OK);
+        try{
+            return new ResponseEntity<>(usuarioService.buscarUsuarioXEmail(email), HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 }

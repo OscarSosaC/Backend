@@ -29,32 +29,38 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader("Authorization");
         final String token;
         final String userEmail;
-
-        if(authHeader == null || !authHeader.startsWith("Bearer ")){
+        String emailFromPath = "";
+        System.out.println("call with request " + request.getRequestURI());
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
-
-
+        if (request.getRequestURI().startsWith("/api/usuario/buscar/")) {
+            emailFromPath = request.getRequestURI().substring(20);
+        }
         token = authHeader.substring(7);
         userEmail = jwtService.extractUsername(token);
-        if(userEmail!= null && SecurityContextHolder.getContext().getAuthentication() == null){
-            UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
+        System.out.println("call do filter with " + emailFromPath + " llllllll " + userEmail);
+        if (emailFromPath.isEmpty() || emailFromPath.equals(userEmail)) {
+            System.out.println("pasa validacion empty equal");
+            if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
 
-            if(jwtService.isTokenValid(token, userDetails)){
-                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        null,
-                        userDetails.getAuthorities()
-                );
-                authenticationToken.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request)
-                );
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                if (jwtService.isTokenValid(token, userDetails)) {
+                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                            userDetails,
+                            null,
+                            userDetails.getAuthorities()
+                    );
+                    authenticationToken.setDetails(
+                            new WebAuthenticationDetailsSource().buildDetails(request)
+                    );
+                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                }
+                filterChain.doFilter(request, response);
             }
-            filterChain.doFilter(request, response);
+        } else {
+            throw new RuntimeException("Email no valido");
         }
-
-
     }
 }

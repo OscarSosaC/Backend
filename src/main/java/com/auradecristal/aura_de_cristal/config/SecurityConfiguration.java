@@ -28,14 +28,13 @@ public class SecurityConfiguration {
                             //endpoints que no requieren autenticacion
                             auth.requestMatchers("/api/auth/**").permitAll();
                             auth.requestMatchers("/h2-console/**").permitAll();
-//                            auth.requestMatchers(HttpMethod.GET, "/odontologo/**").permitAll();
 //                            // endopoint que requieren roles especificos
-//                            auth.requestMatchers(HttpMethod.POST, "/odontologo/**").hasAuthority("ADMIN");
+                           auth.requestMatchers(HttpMethod.POST).hasAuthority("ADMIN");
 //                            auth.requestMatchers(HttpMethod.PUT, "/odontologo/**").hasAuthority("ADMIN");
-//                            auth.requestMatchers(HttpMethod.DELETE, "/odontologo/**").hasAuthority("ADMIN");
-//                            auth.requestMatchers("/paciente/**").hasAuthority("ADMIN");
+                            auth.requestMatchers(HttpMethod.DELETE).hasAuthority("ADMIN");
 //                            // endpoints que requieren autenticacion (al menos el rol de usuario)
-//                            auth.requestMatchers("/turno/**").authenticated();
+                            auth.requestMatchers("/api/usuario/**").authenticated();
+                            auth.requestMatchers(HttpMethod.GET).permitAll();
                             auth.anyRequest().authenticated();
                         })
                 .csrf(config -> config.disable())
