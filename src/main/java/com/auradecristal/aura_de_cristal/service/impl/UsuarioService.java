@@ -40,6 +40,7 @@ public class UsuarioService implements IUsuarioService {
             LOGGER.info("Usuario encontrada: {}", JsonPrinter.toString(usuarioEncontrada));
         } else {
             LOGGER.info("Usuario no encontrado: {}");
+            throw new RuntimeException("Usuario no encontrado");
         }
         System.out.println("call find with: " + usuarioEncontrada);
 

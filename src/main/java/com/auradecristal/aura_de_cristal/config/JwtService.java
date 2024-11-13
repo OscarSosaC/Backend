@@ -18,7 +18,8 @@ public class JwtService {
         Map<String, Object> claims = Map.of(
                 "rol", userDetails.getAuthorities(),
                 "nombre", usuario.getNombre(),
-                "apellido", usuario.getApellido()
+                "apellido", usuario.getApellido(),
+                "email", usuario.getEmail()
         );
 
         return Jwts.builder()
@@ -50,6 +51,8 @@ public class JwtService {
 
     public boolean isTokenValid(String token, UserDetails userDetails){
         final String username = extractUsername(token);
+        System.out.println("call is token valid "+userDetails);
+        System.out.println("call is token valid "+username);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
