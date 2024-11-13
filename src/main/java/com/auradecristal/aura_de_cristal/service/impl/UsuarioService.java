@@ -34,7 +34,6 @@ public class UsuarioService implements IUsuarioService {
     public UsuarioSalidaDTO buscarUsuarioXEmail(String email) {
         Usuario usuarioBuscada = usuarioRepository.findByEmail(email).orElse(null);
         UsuarioSalidaDTO usuarioEncontrada = null;
-        System.out.println("call find with: " + usuarioBuscada);
 
         if (usuarioBuscada != null){
             usuarioEncontrada = modelMapper.map(usuarioBuscada, UsuarioSalidaDTO.class);

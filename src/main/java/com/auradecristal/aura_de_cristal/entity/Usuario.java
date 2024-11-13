@@ -19,6 +19,18 @@ public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private String nombre;
+    private String apellido;
+    private String email;
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Rol rol;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(rol.name()));
+    }
 
     public String getNombre() {
         return nombre;
@@ -30,19 +42,6 @@ public class Usuario implements UserDetails {
 
     public String getEmail() {
         return email;
-    }
-
-    private String nombre;
-    private String apellido;
-    private String email;
-    private String password;
-
-    @Enumerated(EnumType.STRING)
-    private Role rol;
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(rol.name()));
     }
 
     @Override
