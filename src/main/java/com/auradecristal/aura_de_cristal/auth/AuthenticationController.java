@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class AuthenticationController {
   
-    private AuthenticationService authenticationService;
+    private final AuthenticationService authenticationService;
     private Logger LOGGER = LoggerFactory.getLogger(AuthenticationController.class);
 
     @PostMapping("/register")
