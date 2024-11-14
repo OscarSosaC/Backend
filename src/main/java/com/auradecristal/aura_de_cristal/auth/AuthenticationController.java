@@ -7,18 +7,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
+@CrossOrigin
 public class AuthenticationController {
-    private final AuthenticationService authenticationService;
-    private final Logger LOGGER = LoggerFactory.getLogger(AuthenticationController.class);
-
+  
+    private AuthenticationService authenticationService;
+    private Logger LOGGER = LoggerFactory.getLogger(AuthenticationController.class);
 
     @PostMapping("/register")
     ResponseEntity<?> register(@RequestBody RegisterRequest request){
