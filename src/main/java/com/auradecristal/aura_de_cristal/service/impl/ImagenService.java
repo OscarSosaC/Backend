@@ -3,9 +3,8 @@ package com.auradecristal.aura_de_cristal.service.impl;
 import com.auradecristal.aura_de_cristal.dto.entrada.ImagenEntradaDTO;
 import com.auradecristal.aura_de_cristal.dto.salida.ImagenSalidaDTO;
 import com.auradecristal.aura_de_cristal.entity.Imagen;
-import com.auradecristal.aura_de_cristal.repository.CaracteristicaRepository;
-import com.auradecristal.aura_de_cristal.repository.ImagenRepository;
-import com.auradecristal.aura_de_cristal.repository.ProductoRepository;
+import com.auradecristal.aura_de_cristal.repository.IImagenRepository;
+import com.auradecristal.aura_de_cristal.repository.IProductoRepository;
 import com.auradecristal.aura_de_cristal.service.IImagenService;
 import com.auradecristal.aura_de_cristal.util.JsonPrinter;
 import org.modelmapper.ModelMapper;
@@ -16,20 +15,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ImagenService implements IImagenService {
 
     @Autowired
-    private ImagenRepository imagenRepository;
+    private IImagenRepository imagenRepository;
     @Autowired
-    private ProductoRepository productoRepository;
+    private IProductoRepository productoRepository;
     @Autowired
     private ModelMapper modelMapper;
     private final Logger LOGGER = LoggerFactory.getLogger(CategoriaService.class);
 
-    public ImagenService(ImagenRepository imagenRepository, ProductoRepository productoRepository, ModelMapper modelMapper) {
+    public ImagenService(IImagenRepository imagenRepository, IProductoRepository productoRepository, ModelMapper modelMapper) {
         this.imagenRepository = imagenRepository;
         this.productoRepository = productoRepository;
         this.modelMapper = modelMapper;

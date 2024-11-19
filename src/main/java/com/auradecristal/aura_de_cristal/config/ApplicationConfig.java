@@ -1,5 +1,5 @@
 package com.auradecristal.aura_de_cristal.config;
-import com.auradecristal.aura_de_cristal.repository.UsuarioRepository;
+import com.auradecristal.aura_de_cristal.repository.IUsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,11 +16,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {
-    private final UsuarioRepository usuarioRepository;
+    private final IUsuarioRepository IUsuarioRepository;
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> usuarioRepository.findByEmail(username)
+        return username -> IUsuarioRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("usuario no encontrado"));
     }
 

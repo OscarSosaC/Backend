@@ -1,11 +1,8 @@
 package com.auradecristal.aura_de_cristal.service.impl;
 
-import com.auradecristal.aura_de_cristal.dto.entrada.ProductoEntradaDTO;
-import com.auradecristal.aura_de_cristal.dto.salida.UsuarioSalidaDTO;
 import com.auradecristal.aura_de_cristal.dto.salida.UsuarioSalidaDTO;
 import com.auradecristal.aura_de_cristal.entity.Usuario;
-import com.auradecristal.aura_de_cristal.entity.Usuario;
-import com.auradecristal.aura_de_cristal.repository.UsuarioRepository;
+import com.auradecristal.aura_de_cristal.repository.IUsuarioRepository;
 import com.auradecristal.aura_de_cristal.service.IUsuarioService;
 import com.auradecristal.aura_de_cristal.util.JsonPrinter;
 import org.modelmapper.ModelMapper;
@@ -19,12 +16,12 @@ import org.springframework.stereotype.Service;
 public class UsuarioService implements IUsuarioService {
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private IUsuarioRepository usuarioRepository;
     @Autowired
     private ModelMapper modelMapper;
     private final Logger LOGGER = LoggerFactory.getLogger(UsuarioService.class);
 
-    public UsuarioService(UsuarioRepository usuarioRepository, ModelMapper modelMapper) {
+    public UsuarioService(IUsuarioRepository usuarioRepository, ModelMapper modelMapper) {
         this.usuarioRepository = usuarioRepository;
         this.modelMapper = modelMapper;
         configureMapping();
@@ -42,7 +39,6 @@ public class UsuarioService implements IUsuarioService {
             LOGGER.info("Usuario no encontrado: {}");
             throw new RuntimeException("Usuario no encontrado");
         }
-        System.out.println("call find with: " + usuarioEncontrada);
 
         return usuarioEncontrada;
     }

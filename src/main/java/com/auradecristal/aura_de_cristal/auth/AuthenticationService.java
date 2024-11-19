@@ -3,7 +3,7 @@ package com.auradecristal.aura_de_cristal.auth;
 import com.auradecristal.aura_de_cristal.config.JwtService;
 import com.auradecristal.aura_de_cristal.entity.Rol;
 import com.auradecristal.aura_de_cristal.entity.Usuario;
-import com.auradecristal.aura_de_cristal.repository.UsuarioRepository;
+import com.auradecristal.aura_de_cristal.repository.IUsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,7 +16,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
-    private final UsuarioRepository usuarioRepository;
+    private final IUsuarioRepository IUsuarioRepository;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
@@ -29,11 +29,11 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .rol(Rol.USER)
                 .build();
-        Optional<Usuario> usuarioBD = usuarioRepository.findByEmail(usuario.getEmail());
+        Optional<Usuario> usuarioBD = IUsuarioRepository.findByEmail(usuario.getEmail());
         if(usuarioBD.isPresent()){
             throw  new IllegalArgumentException("El usuario ya existe.");
         }
-        usuarioRepository.save(usuario);
+        IUsuarioRepository.save(usuario);
         String token = jwtService.generateToken(usuario);
         return AuthenticationResponse.builder()
                 .token(token)
@@ -50,7 +50,7 @@ public class AuthenticationService {
                 )
         );
 
-        Usuario usuario = usuarioRepository.findByEmail(request.getEmail())
+        Usuario usuario = IUsuarioRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("No existe el usuario"));
 
         String token = jwtService.generateToken(usuario);

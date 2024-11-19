@@ -3,7 +3,7 @@ package com.auradecristal.aura_de_cristal.service.impl;
 import com.auradecristal.aura_de_cristal.dto.entrada.CategoriaEntradaDTO;
 import com.auradecristal.aura_de_cristal.dto.salida.CategoriaSalidaDTO;
 import com.auradecristal.aura_de_cristal.entity.Categoria;
-import com.auradecristal.aura_de_cristal.repository.CategoriaRepository;
+import com.auradecristal.aura_de_cristal.repository.ICategoriaRepository;
 import com.auradecristal.aura_de_cristal.service.ICategoriaService;
 import com.auradecristal.aura_de_cristal.util.JsonPrinter;
 import jakarta.persistence.EntityNotFoundException;
@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,12 +20,12 @@ import java.util.List;
 public class CategoriaService implements ICategoriaService {
 
     @Autowired
-    private CategoriaRepository categoriaRepository;
+    private ICategoriaRepository categoriaRepository;
     @Autowired
     private ModelMapper modelMapper;
     private final Logger LOGGER = LoggerFactory.getLogger(CategoriaService.class);
 
-    public CategoriaService(CategoriaRepository categoriaRepository, ModelMapper modelMapper) {
+    public CategoriaService(ICategoriaRepository categoriaRepository, ModelMapper modelMapper) {
         this.categoriaRepository = categoriaRepository;
         this.modelMapper = modelMapper;
     }

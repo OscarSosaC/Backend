@@ -35,6 +35,12 @@ public class SecurityConfiguration {
 //                            // endpoints que requieren autenticacion (al menos el rol de usuario)
                             auth.requestMatchers("/api/usuario/**").authenticated();
                             auth.requestMatchers(HttpMethod.GET).permitAll();
+
+                            // endpoints de swagger
+                            auth.requestMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll();
+                            auth.requestMatchers(HttpMethod.GET, "/v3/api-docs/**").permitAll();
+                            auth.requestMatchers(HttpMethod.GET, "/swagger-ui.html").permitAll();
+
                             auth.anyRequest().authenticated();
                         })
                 .csrf(config -> config.disable())

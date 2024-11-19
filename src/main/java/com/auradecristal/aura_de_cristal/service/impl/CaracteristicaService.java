@@ -1,13 +1,9 @@
 package com.auradecristal.aura_de_cristal.service.impl;
 
 import com.auradecristal.aura_de_cristal.dto.entrada.CaracteristicaEntradaDTO;
-import com.auradecristal.aura_de_cristal.dto.entrada.CategoriaEntradaDTO;
-import com.auradecristal.aura_de_cristal.dto.entrada.ProductoEntradaDTO;
 import com.auradecristal.aura_de_cristal.dto.salida.CaracteristicaSalidaDTO;
-import com.auradecristal.aura_de_cristal.dto.salida.ProductoSalidaDTO;
 import com.auradecristal.aura_de_cristal.entity.Caracteristica;
-import com.auradecristal.aura_de_cristal.entity.Producto;
-import com.auradecristal.aura_de_cristal.repository.CaracteristicaRepository;
+import com.auradecristal.aura_de_cristal.repository.ICaracteristicaRepository;
 import com.auradecristal.aura_de_cristal.service.ICaracteristicaService;
 import com.auradecristal.aura_de_cristal.util.JsonPrinter;
 import jakarta.persistence.EntityNotFoundException;
@@ -17,21 +13,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class CaracteristicaService implements ICaracteristicaService {
 
     @Autowired
-    private CaracteristicaRepository caracteristicaRepository;
+    private ICaracteristicaRepository caracteristicaRepository;
     @Autowired
     private ModelMapper modelMapper;
     private final Logger LOGGER = LoggerFactory.getLogger(CaracteristicaService.class);
 
-    public CaracteristicaService(CaracteristicaRepository caracteristicaRepository, ModelMapper modelMapper) {
+    public CaracteristicaService(ICaracteristicaRepository caracteristicaRepository, ModelMapper modelMapper) {
         this.caracteristicaRepository = caracteristicaRepository;
         this.modelMapper = modelMapper;
         configureMapping();

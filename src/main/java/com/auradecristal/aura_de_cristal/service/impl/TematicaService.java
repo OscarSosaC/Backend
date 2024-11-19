@@ -3,7 +3,7 @@ package com.auradecristal.aura_de_cristal.service.impl;
 import com.auradecristal.aura_de_cristal.dto.entrada.TematicaEntradaDTO;
 import com.auradecristal.aura_de_cristal.dto.salida.TematicaSalidaDTO;
 import com.auradecristal.aura_de_cristal.entity.Tematica;
-import com.auradecristal.aura_de_cristal.repository.TematicaRepository;
+import com.auradecristal.aura_de_cristal.repository.ITematicaRepository;
 import com.auradecristal.aura_de_cristal.service.ITematicaService;
 import com.auradecristal.aura_de_cristal.util.JsonPrinter;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,12 +19,12 @@ import java.util.List;
 public class TematicaService implements ITematicaService {
 
     @Autowired
-    private TematicaRepository tematicaRepository;
+    private ITematicaRepository tematicaRepository;
     @Autowired
     private ModelMapper modelMapper;
     private final Logger LOGGER = LoggerFactory.getLogger(CategoriaService.class);
 
-    public TematicaService(TematicaRepository tematicaRepository, ModelMapper modelMapper) {
+    public TematicaService(ITematicaRepository tematicaRepository, ModelMapper modelMapper) {
         this.tematicaRepository = tematicaRepository;
         this.modelMapper = modelMapper;
     }

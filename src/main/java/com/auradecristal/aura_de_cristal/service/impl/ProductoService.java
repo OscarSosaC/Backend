@@ -5,10 +5,10 @@ import com.auradecristal.aura_de_cristal.dto.salida.CaracteristicaSalidaDTO;
 import com.auradecristal.aura_de_cristal.dto.salida.ImagenSalidaDTO;
 import com.auradecristal.aura_de_cristal.dto.salida.ProductoSalidaDTO;
 import com.auradecristal.aura_de_cristal.entity.*;
-import com.auradecristal.aura_de_cristal.repository.CaracteristicaRepository;
-import com.auradecristal.aura_de_cristal.repository.CategoriaRepository;
-import com.auradecristal.aura_de_cristal.repository.ProductoRepository;
-import com.auradecristal.aura_de_cristal.repository.TematicaRepository;
+import com.auradecristal.aura_de_cristal.repository.ICaracteristicaRepository;
+import com.auradecristal.aura_de_cristal.repository.ICategoriaRepository;
+import com.auradecristal.aura_de_cristal.repository.IProductoRepository;
+import com.auradecristal.aura_de_cristal.repository.ITematicaRepository;
 import com.auradecristal.aura_de_cristal.service.IProdutoService;
 import com.auradecristal.aura_de_cristal.util.JsonPrinter;
 import jakarta.persistence.EntityNotFoundException;
@@ -27,23 +27,23 @@ import java.util.stream.Collectors;
 public class ProductoService implements IProdutoService {
 
     @Autowired
-    private ProductoRepository productoRepository;
+    private IProductoRepository productoRepository;
     @Autowired
-    private CategoriaRepository categoriaRepository;
+    private ICategoriaRepository categoriaRepository;
     @Autowired
-    private TematicaRepository tematicaRepository;
+    private ITematicaRepository tematicaRepository;
     @Autowired
-    private CaracteristicaRepository caracteristicaRepository;
+    private ICaracteristicaRepository caracteristicaRepository;
     @Autowired
     private ImagenService imagenService;
     @Autowired
     private ModelMapper modelMapper;
     private final Logger LOGGER = LoggerFactory.getLogger(ProductoService.class);
 
-    public ProductoService(ProductoRepository productoRepository, CategoriaRepository categoriaRepository, TematicaRepository tematicaRepository,CaracteristicaRepository caracteristicaRepository, ModelMapper modelMapper) {
-        this.tematicaRepository = tematicaRepository;
-        this.categoriaRepository = categoriaRepository;
-        this.productoRepository = productoRepository;
+    public ProductoService(IProductoRepository IProductoRepository, ICategoriaRepository ICategoriaRepository, ITematicaRepository ITematicaRepository, ICaracteristicaRepository caracteristicaRepository, ModelMapper modelMapper) {
+        this.tematicaRepository = ITematicaRepository;
+        this.categoriaRepository = ICategoriaRepository;
+        this.productoRepository = IProductoRepository;
         this.caracteristicaRepository = caracteristicaRepository;
         this.modelMapper = modelMapper;
         configureMapping();
