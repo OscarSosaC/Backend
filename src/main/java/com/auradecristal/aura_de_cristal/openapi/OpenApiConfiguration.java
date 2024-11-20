@@ -22,8 +22,7 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
         description = "JWT authentication",
         scheme = "bearer",
         type = SecuritySchemeType.HTTP,
-        bearerFormat = "JWT",
-        in = SecuritySchemeIn.HEADER
+        bearerFormat = "JWT"
 )
 public class OpenApiConfiguration {
 }
