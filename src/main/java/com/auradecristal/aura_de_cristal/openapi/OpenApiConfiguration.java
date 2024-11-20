@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.servers.Server;
 
 @OpenAPIDefinition(
         info = @Info(
@@ -13,6 +14,7 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
                 version = "1.0",
                 description = "Esta es una aplicación realizada para el proyecto integrador DH - Equipo 4"
         ),
+        servers = @Server(url = "https://auradecristalapi-development.up.railway.app"), // URL con https
         security = {
                 @SecurityRequirement(name = "bearerAuth")
         }
@@ -26,3 +28,4 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 )
 public class OpenApiConfiguration {
 }
+
