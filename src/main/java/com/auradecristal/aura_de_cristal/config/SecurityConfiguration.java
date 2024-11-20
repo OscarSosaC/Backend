@@ -37,9 +37,7 @@ public class SecurityConfiguration {
                             auth.requestMatchers(HttpMethod.GET).permitAll();
 
                             // endpoints de swagger
-                            auth.requestMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll();
-                            auth.requestMatchers(HttpMethod.GET, "/v3/api-docs/**").permitAll();
-                            auth.requestMatchers(HttpMethod.GET, "/swagger-ui.html").permitAll();
+                            auth.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll();
 
                             auth.anyRequest().authenticated();
                         })
