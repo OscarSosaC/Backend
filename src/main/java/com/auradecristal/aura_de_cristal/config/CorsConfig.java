@@ -8,9 +8,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class CorsConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry){
         registry.addMapping("/**")
-                .allowedOrigins(
-                        "http://localhost:8080", // Swagger UI en local
-                        "https://auradecristalapi-development.up.railway.app" // URL en Railway
+                .allowedOriginPatterns(
+                        "https://auradecristalapi-development.up.railway.app*", // Railway
+                        "http://localhost:*", // Localhost con cualquier puerto
+                        "https://localhost:*" // HTTPS en localhost (si lo usas)
                 )
                 .allowedMethods("GET", "POST", "PUT","DELETE")
                 .allowedHeaders("*")
