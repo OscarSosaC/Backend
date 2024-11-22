@@ -1,6 +1,8 @@
 package com.auradecristal.aura_de_cristal.config;
 
 import com.auradecristal.aura_de_cristal.entity.Usuario;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
 import io.jsonwebtoken.Claims;
@@ -12,7 +14,10 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
+
     private static final SecretKey key = Jwts.SIG.HS256.key().build();
+    private final Logger LOGGER = LoggerFactory.getLogger(JwtService.class);
+
     public String generateToken(UserDetails userDetails){
         Usuario usuario = (Usuario) userDetails;
         Map<String, Object> claims = Map.of(

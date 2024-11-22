@@ -5,6 +5,16 @@ public class UsuarioSalidaDTO {
     private String nombre;
     private String apellido;
     private String email;
+    private String rol;
+
+    public UsuarioSalidaDTO(String nombre, String apellido, String email, String rol) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = email;
+        this.rol = rol;
+    }
+
+    public UsuarioSalidaDTO() {}
 
     public String getNombre() {
         return nombre;
@@ -30,13 +40,12 @@ public class UsuarioSalidaDTO {
         this.email = email;
     }
 
-    public UsuarioSalidaDTO(String nombre, String apellido, String email) {
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.email = email;
+    public String getRol() {
+        return rol;
     }
 
-    public UsuarioSalidaDTO() {
+    public void setRol(String rol) {
+        this.rol = rol;
     }
 
     @Override

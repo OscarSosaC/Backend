@@ -23,9 +23,8 @@ public class Usuario implements UserDetails {
     private String apellido;
     private String email;
     private String password;
-
     @Enumerated(EnumType.STRING)
-    private Rol rol;
+    private Rol rol = Rol.USER;;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -54,6 +53,14 @@ public class Usuario implements UserDetails {
         return email;
     }
 
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return UserDetails.super.isAccountNonExpired();
@@ -76,7 +83,13 @@ public class Usuario implements UserDetails {
 
     @Override
     public String toString() {
-        return "Usuario {"+this.nombre + " - " +this.apellido + " - " +this.email + " - " +this.password  + "}";
+        return "Usuario {" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", apellido='" + apellido + '\'' +
+                ", email='" + email + '\'' +
+                ", rol=" + rol +
+                '}';
     }
 }
 

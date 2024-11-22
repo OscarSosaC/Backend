@@ -11,4 +11,6 @@ DB_PORT=3306
 DB_NAME=railway
 DB_USER=root
 DB_PASSWORD=mhzRCBPGJNPJPIGZlWsENYmqfZXfhAFp
+	    mhzRCBPGJNPJPIGZlWsENYmqfZXfhAFp
+Public Url: mysql://root:mhzRCBPGJNPJPIGZlWsENYmqfZXfhAFp@junction.proxy.rlwy.net:58490/railway
 

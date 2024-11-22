@@ -1,20 +1,26 @@
-package com.auradecristal.aura_de_cristal.auth;
+package com.auradecristal.aura_de_cristal.dto.entrada;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
-@Builder
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class RegisterRequest {
+public class UsuarioEntradaDTO {
+    @NotBlank(message = "El nombre es obligatorio.")
     private String nombre;
+
+    @NotBlank(message = "El apellido es obligatorio.")
     private String apellido;
+
+    @Email(message = "El email debe tener un formato válido.")
+    @NotBlank(message = "El email es obligatorio.")
     private String email;
+
+    @NotBlank(message = "La contraseña es obligatoria.")
     private String password;
 
+    @NotBlank(message = "El rol es obligatorio.")
+    private String rol;
+
+    // Getters y Setters
     public String getNombre() {
         return nombre;
     }
@@ -45,5 +51,13 @@ public class RegisterRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
     }
 }

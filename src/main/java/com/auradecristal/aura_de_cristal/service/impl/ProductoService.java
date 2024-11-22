@@ -87,7 +87,6 @@ public class ProductoService implements IProdutoService {
         for (String url : productoEntradaDTO.getImagenes()) {
             Imagen imagen = new Imagen();  // Crear una nueva instancia de Imagen
             imagen.setUrl(url);  // Asignar la URL a la imagen
-
             producto.getImagenes().add(imagen);
         }
 

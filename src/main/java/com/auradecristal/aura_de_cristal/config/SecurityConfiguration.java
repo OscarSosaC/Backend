@@ -26,14 +26,13 @@ public class SecurityConfiguration {
                         auth -> {
                             //cambiar rutas
                             //endpoints que no requieren autenticacion
-                            auth.requestMatchers("/api/auth/**").permitAll();
-                            auth.requestMatchers("/h2-console/**").permitAll();
+                            auth.requestMatchers("/auth/**").permitAll();
 //                            // endopoint que requieren roles especificos
                            auth.requestMatchers(HttpMethod.POST).hasAuthority("ADMIN");
 //                            auth.requestMatchers(HttpMethod.PUT, "/odontologo/**").hasAuthority("ADMIN");
                             auth.requestMatchers(HttpMethod.DELETE).hasAuthority("ADMIN");
 //                            // endpoints que requieren autenticacion (al menos el rol de usuario)
-                            auth.requestMatchers("/api/usuario/**").authenticated();
+                            auth.requestMatchers("/usuarios/**").authenticated();
                             auth.requestMatchers(HttpMethod.GET).permitAll();
 
                             // endpoints de swagger

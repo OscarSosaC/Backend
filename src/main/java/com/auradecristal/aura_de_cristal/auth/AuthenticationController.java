@@ -1,21 +1,24 @@
 package com.auradecristal.aura_de_cristal.auth;
 
-import com.auradecristal.aura_de_cristal.controller.CategoriaController;
+import com.auradecristal.aura_de_cristal.service.IEmailService;
 import com.auradecristal.aura_de_cristal.util.JsonPrinter;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("auth")
 @RequiredArgsConstructor
 @CrossOrigin
 public class AuthenticationController {
   
     private final AuthenticationService authenticationService;
+    @Autowired
+    private IEmailService emailService;
     private Logger LOGGER = LoggerFactory.getLogger(AuthenticationController.class);
 
     @PostMapping("/register")
@@ -24,7 +27,9 @@ public class AuthenticationController {
         try {
             AuthenticationResponse response = authenticationService.register(request);
             LOGGER.info("Peticion POST register response: {}", JsonPrinter.toString(response));
+            emailService.enviarCorreoRegistro(request.getNombre() + " " + request.getApellido(), request.getEmail());
             return ResponseEntity.ok(response);
+
         } catch (IllegalArgumentException e) {
             LOGGER.error("Peticion POST register error: {}", JsonPrinter.toString(e.getMessage()));
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
