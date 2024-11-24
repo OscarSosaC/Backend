@@ -8,14 +8,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/*")
+        registry.addMapping("/**") // Permitir todos los endpoints
                 .allowedOriginPatterns(
-                        "https://auradecristalapi-development.up.railway.app/", // Railway con HTTPS
-                        "http://localhost/:", // Localhost con cualquier puerto (para desarrollo)
-                        "https://localhost:*" // HTTPS en localhost, si es necesario
+                        "http://localhost:8080", // Swagger local
+                        "https://auradecristalapi-development.up.railway.app" // Producción
                 )
-                .allowedMethods("GET", "POST", "PUT", "DELETE")
-                .allowedHeaders("*")
-                .allowCredentials(true);
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Métodos permitidos
+                .allowedHeaders("*") // Todos los encabezados
+                .allowCredentials(true); // Credenciales si son necesarias
     }
 }

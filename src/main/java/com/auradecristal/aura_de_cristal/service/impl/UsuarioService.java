@@ -1,13 +1,13 @@
 package com.auradecristal.aura_de_cristal.service.impl;
 
 import com.auradecristal.aura_de_cristal.dto.entrada.UsuarioEntradaDTO;
-import com.auradecristal.aura_de_cristal.dto.salida.ProductoSalidaDTO;
 import com.auradecristal.aura_de_cristal.dto.salida.UsuarioSalidaDTO;
 import com.auradecristal.aura_de_cristal.entity.Rol;
 import com.auradecristal.aura_de_cristal.entity.Usuario;
 import com.auradecristal.aura_de_cristal.repository.IUsuarioRepository;
 import com.auradecristal.aura_de_cristal.service.IUsuarioService;
 import com.auradecristal.aura_de_cristal.util.JsonPrinter;
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,10 +47,14 @@ public class UsuarioService implements IUsuarioService {
     @Override
     public UsuarioSalidaDTO buscarUsuarioXEmail(String email) {
         try {
+            if (email == null || email.trim().isEmpty()) {
+                throw new IllegalArgumentException("El email no puede ser nulo o vacío.");
+            }
+
             Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(email);
             if (usuarioOptional.isEmpty()) {
                 LOGGER.warn("No se encontró un usuario con el email: {}", email);
-                throw new RuntimeException("Usuario no encontrado con email: " + email);
+                throw new EntityNotFoundException("Usuario no encontrado con email: " + email);
             }
 
             Usuario usuario = usuarioOptional.get();
@@ -59,9 +63,15 @@ public class UsuarioService implements IUsuarioService {
             LOGGER.info("Usuario encontrado: {}", JsonPrinter.toString(usuarioDTO));
             return usuarioDTO;
 
+        } catch (IllegalArgumentException e) {
+            LOGGER.error("Entrada inválida: {}", e.getMessage());
+            throw e;
+        } catch (EntityNotFoundException e) {
+            LOGGER.warn("Error de entidad no encontrada: {}", e.getMessage());
+            throw e;
         } catch (Exception e) {
             LOGGER.error("Error inesperado al buscar usuario: {}", e.getMessage());
-            throw new RuntimeException("Error al buscar usuario.", e);
+            throw new RuntimeException("Error inesperado al buscar usuario.", e);
         }
     }
 

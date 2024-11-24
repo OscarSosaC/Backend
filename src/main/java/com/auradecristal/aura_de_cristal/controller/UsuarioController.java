@@ -5,6 +5,7 @@ import com.auradecristal.aura_de_cristal.dto.salida.ProductoSalidaDTO;
 import com.auradecristal.aura_de_cristal.dto.salida.UsuarioSalidaDTO;
 import com.auradecristal.aura_de_cristal.entity.Rol;
 import com.auradecristal.aura_de_cristal.service.impl.UsuarioService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("usuarios")
@@ -34,12 +36,25 @@ public class UsuarioController {
         return new ResponseEntity<>(usuarioService.listarUsuarios(), HttpStatus.OK);
     }
 
-    @GetMapping("/buscar/{email}")
-    public ResponseEntity<?> buscarUsuarioXEmail(@PathVariable String email) {
-        try{
-            return new ResponseEntity<>(usuarioService.buscarUsuarioXEmail(email), HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    @GetMapping("/buscar")
+    public ResponseEntity<?> buscarUsuarioXEmail(@RequestBody Map<String, String> requestBody) {
+        try {
+            if (!requestBody.containsKey("email") || requestBody.get("email").isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("El campo 'email' es obligatorio.");
+            }
+
+            String email = requestBody.get("email");
+            UsuarioSalidaDTO usuario = usuarioService.buscarUsuarioXEmail(email);
+            return ResponseEntity.ok(usuario);
+
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email inválido: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error inesperado al procesar la solicitud.");
         }
     }
 

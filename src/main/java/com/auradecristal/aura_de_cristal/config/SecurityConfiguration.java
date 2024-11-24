@@ -34,7 +34,7 @@ public class SecurityConfiguration {
 //                            // endpoints que requieren autenticacion (al menos el rol de usuario)
                             auth.requestMatchers("/usuarios/**").authenticated();
                             auth.requestMatchers(HttpMethod.GET).permitAll();
-
+                            auth.requestMatchers(HttpMethod.OPTIONS).permitAll();
                             // endpoints de swagger
                             auth.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll();
 
