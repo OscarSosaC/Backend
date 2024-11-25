@@ -27,17 +27,16 @@ public class SecurityConfiguration {
                             //cambiar rutas
                             //endpoints que no requieren autenticacion
                             auth.requestMatchers("/auth/**").permitAll();
-//                            // endopoint que requieren roles especificos
-                           auth.requestMatchers(HttpMethod.POST).hasAuthority("ADMIN");
-//                            auth.requestMatchers(HttpMethod.PUT, "/odontologo/**").hasAuthority("ADMIN");
+                            // endopoint que requieren roles especificos
+                            auth.requestMatchers(HttpMethod.POST).hasAuthority("ADMIN");
+                            auth.requestMatchers(HttpMethod.PUT).hasAuthority("ADMIN");
                             auth.requestMatchers(HttpMethod.DELETE).hasAuthority("ADMIN");
-//                            // endpoints que requieren autenticacion (al menos el rol de usuario)
+                            // endpoints que requieren autenticacion (al menos el rol de usuario)
                             auth.requestMatchers("/usuarios/**").authenticated();
                             auth.requestMatchers(HttpMethod.GET).permitAll();
                             auth.requestMatchers(HttpMethod.OPTIONS).permitAll();
                             // endpoints de swagger
                             auth.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll();
-
                             auth.anyRequest().authenticated();
                         })
                 .csrf(config -> config.disable())

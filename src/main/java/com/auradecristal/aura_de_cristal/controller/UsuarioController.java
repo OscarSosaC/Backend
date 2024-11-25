@@ -37,14 +37,13 @@ public class UsuarioController {
     }
 
     @GetMapping("/buscar")
-    public ResponseEntity<?> buscarUsuarioXEmail(@RequestBody Map<String, String> requestBody) {
+    public ResponseEntity<?> buscarUsuarioXEmail(@RequestParam String email) {
         try {
-            if (!requestBody.containsKey("email") || requestBody.get("email").isEmpty()) {
+            LOGGER.info("Email buscado: " + email);
+            if (email == null || email.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body("El campo 'email' es obligatorio.");
             }
-
-            String email = requestBody.get("email");
             UsuarioSalidaDTO usuario = usuarioService.buscarUsuarioXEmail(email);
             return ResponseEntity.ok(usuario);
 
