@@ -8,10 +8,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/*")
-                .allowedOrigins("") // Acá cambiamos para permitir cualquier origen
+        registry.addMapping("/** ") //aca van dos asteriscos
+                .allowedOriginPatterns(" * ") // Por ahora para recibir peticiones de cualquier lado
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Métodos permitidos
-                .allowedHeaders("*") // Todos los encabezados permitidos
-                .allowCredentials(false);
+                .allowedHeaders("*") //
+                .allowCredentials(true); //aca iria true en vez de false*
     }
 }
