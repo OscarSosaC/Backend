@@ -9,12 +9,10 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") // Permitir todos los endpoints
-                .allowedOriginPatterns(
-                        "http://localhost:8080", // Swagger local
-                        "https://auradecristalapi-development.up.railway.app" // Producción
-                )
+                .allowedOrigins("https://aura-de-cristal.vercel.app") // Permitir solo el origen necesario
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Métodos permitidos
                 .allowedHeaders("*") // Todos los encabezados
-                .allowCredentials(true); // Credenciales si son necesarias
+                .exposedHeaders("Authorization", "Content-Type") // Encabezados expuestos si son necesarios
+                .allowCredentials(true); // Habilitar credenciales
     }
 }
