@@ -8,11 +8,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**") // Permitir todos los endpoints
-                .allowedOrigins("https://aura-de-cristal.vercel.app") // Permitir solo el origen necesario
+        registry.addMapping("/*")
+                .allowedOrigins("") // Acá cambiamos para permitir cualquier origen
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Métodos permitidos
-                .allowedHeaders("*") // Todos los encabezados
-                .exposedHeaders("Authorization", "Content-Type") // Encabezados expuestos si son necesarios
-                .allowCredentials(true); // Habilitar credenciales
+                .allowedHeaders("*") // Todos los encabezados permitidos
+                .allowCredentials(false);
     }
 }
