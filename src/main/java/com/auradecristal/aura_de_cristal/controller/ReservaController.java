@@ -23,7 +23,7 @@ public class ReservaController {
         this.reservaService = reservaService;
     }
 
-    @PostMapping
+    @PostMapping("/registrar")
     public ResponseEntity<?> registrarReserva(@RequestBody ReservaEntradaDTO reservaEntradaDTO) {
         try {
             ReservaSalidaDTO reservaSalidaDTO = reservaService.registrarReserva(reservaEntradaDTO);
