@@ -38,6 +38,9 @@ public class Producto {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "producto_id", referencedColumnName = "idProducto")
     private List<Imagen> imagenes = new ArrayList<>();
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reserva> reservas = new ArrayList<>();
+
 
     @PrePersist
     protected void onCreate() {
@@ -48,7 +51,7 @@ public class Producto {
         this.caracteristicas = new HashSet<>();
     }
 
-    public Producto(Long idProducto, String nombre, String descripcion, double precio_alquiler, int disponibilidad, LocalDateTime fecha_registro, int inventario, Categoria categoria, Tematica tematica, Set<Caracteristica> caracteristicas, List<Imagen> imagenes) {
+    public Producto(Long idProducto, String nombre, String descripcion, double precio_alquiler, int disponibilidad, LocalDateTime fecha_registro, int inventario, Categoria categoria, Tematica tematica, Set<Caracteristica> caracteristicas, List<Imagen> imagenes, List<Reserva> reservas) {
         this.idProducto = idProducto;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -58,8 +61,9 @@ public class Producto {
         this.inventario = inventario;
         this.categoria = categoria;
         this.tematica = tematica;
-        this.caracteristicas = (caracteristicas != null) ? caracteristicas : new HashSet<>();
+        this.caracteristicas = caracteristicas;
         this.imagenes = imagenes;
+        this.reservas = reservas;
     }
 
     public Long getidProducto() {
@@ -156,5 +160,13 @@ public class Producto {
 
     public void setImagenes(List<Imagen> imagenes) {
         this.imagenes = imagenes;
+    }
+
+    public List<Reserva> getReservas() {
+        return reservas;
+    }
+
+    public void setReservas(List<Reserva> reservas) {
+        this.reservas = reservas;
     }
 }

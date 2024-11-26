@@ -1,5 +1,7 @@
 package com.auradecristal.aura_de_cristal.dto.salida;
 
+import java.util.List;
+
 public class UsuarioSalidaDTO {
 
     private Long id;
@@ -7,13 +9,15 @@ public class UsuarioSalidaDTO {
     private String apellido;
     private String email;
     private String rol;
+    private List<ReservaSalidaDTO> reservas;
 
-    public UsuarioSalidaDTO(Long id, String nombre, String apellido, String email, String rol) {
+    public UsuarioSalidaDTO(Long id, String nombre, String apellido, String email, String rol, List<ReservaSalidaDTO> reservas) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
         this.rol = rol;
+        this.reservas = reservas;
     }
 
     public Long getId() {
@@ -56,6 +60,14 @@ public class UsuarioSalidaDTO {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    public List<ReservaSalidaDTO> getReservas() {
+        return reservas;
+    }
+
+    public void setReservas(List<ReservaSalidaDTO> reservas) {
+        this.reservas = reservas;
     }
 
     @Override

@@ -11,5 +11,5 @@ import java.util.List;
 public interface IUsuarioService {
     List<UsuarioSalidaDTO> listarUsuarios();
     UsuarioSalidaDTO buscarUsuarioXEmail(String email);
-    UsuarioSalidaDTO actualizarUsuario(Integer id, UsuarioEntradaDTO usuarioEntradaDTO);
+    UsuarioSalidaDTO actualizarUsuario(Long id, UsuarioEntradaDTO usuarioEntradaDTO);
 }

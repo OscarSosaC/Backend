@@ -21,8 +21,9 @@ public class ProductoSalidaDTO {
     private TematicaSalidaDTO tematica;
     private List<ImagenSalidaDTO> imagenes;
     private List<CaracteristicaSalidaDTO> caracteristicas;
+    private List<ReservaSalidaDTO> reservas;
 
-    public ProductoSalidaDTO(Long id, String nombre, String descripcion, double precio_alquiler, int disponibilidad, LocalDateTime fecha_registro, int inventario, Categoria categoria, Tematica tematica, List<Imagen> imagenes, List<Caracteristica> caracteristicas) {
+    public ProductoSalidaDTO(Long id, String nombre, String descripcion, double precio_alquiler, int disponibilidad, LocalDateTime fecha_registro, int inventario, Categoria categoria, Tematica tematica, List<Imagen> imagenes, List<Caracteristica> caracteristicas, List<ReservaSalidaDTO> reservas) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -34,6 +35,7 @@ public class ProductoSalidaDTO {
         this.tematica = new TematicaSalidaDTO(tematica.getidTematica(), tematica.getDescripcion());
         this.imagenes = convertirListaImagenesAListaImagenesSalidaDTO(imagenes);
         this.caracteristicas = convertirListaCaracteristicasAListaCaracteristicaSalidaDTO(caracteristicas);
+        this.reservas = reservas;
     }
 
     public List<ImagenSalidaDTO> convertirListaImagenesAListaImagenesSalidaDTO(List<Imagen> imagenes) {
@@ -142,5 +144,13 @@ public class ProductoSalidaDTO {
 
     public void setCaracteristicas(List<CaracteristicaSalidaDTO> caracteristicas) {
         this.caracteristicas = caracteristicas;
+    }
+
+    public List<ReservaSalidaDTO> getReservas() {
+        return reservas;
+    }
+
+    public void setReservas(List<ReservaSalidaDTO> reservas) {
+        this.reservas = reservas;
     }
 }

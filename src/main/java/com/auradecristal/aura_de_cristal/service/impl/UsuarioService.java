@@ -76,7 +76,7 @@ public class UsuarioService implements IUsuarioService {
     }
 
     @Override
-    public UsuarioSalidaDTO actualizarUsuario(Integer id, UsuarioEntradaDTO usuarioActualizadoDTO) {
+    public UsuarioSalidaDTO actualizarUsuario(Long id, UsuarioEntradaDTO usuarioActualizadoDTO) {
         try {
 
             Usuario usuarioExistente = usuarioRepository.findById(id)
@@ -119,6 +119,7 @@ public class UsuarioService implements IUsuarioService {
                                     usuario.getRol() != null ? usuario.getRol().name() : "SIN_ROL",
                             UsuarioSalidaDTO::setRol
                     );
+                    mapper.map(Usuario::getReservas, UsuarioSalidaDTO::setReservas);
                 });
     }
 }
