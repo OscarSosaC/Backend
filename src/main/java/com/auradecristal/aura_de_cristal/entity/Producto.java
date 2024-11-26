@@ -2,6 +2,7 @@ package com.auradecristal.aura_de_cristal.entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -43,7 +44,9 @@ public class Producto {
         this.fecha_registro = LocalDateTime.now(); // Asigna la fecha y hora actual
     }
 
-    public Producto() {}
+    public Producto() {
+        this.caracteristicas = new HashSet<>();
+    }
 
     public Producto(Long idProducto, String nombre, String descripcion, double precio_alquiler, int disponibilidad, LocalDateTime fecha_registro, int inventario, Categoria categoria, Tematica tematica, Set<Caracteristica> caracteristicas, List<Imagen> imagenes) {
         this.idProducto = idProducto;
@@ -55,7 +58,7 @@ public class Producto {
         this.inventario = inventario;
         this.categoria = categoria;
         this.tematica = tematica;
-        this.caracteristicas = caracteristicas;
+        this.caracteristicas = (caracteristicas != null) ? caracteristicas : new HashSet<>();
         this.imagenes = imagenes;
     }
 
