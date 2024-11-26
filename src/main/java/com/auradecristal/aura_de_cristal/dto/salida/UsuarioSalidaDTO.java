@@ -2,16 +2,26 @@ package com.auradecristal.aura_de_cristal.dto.salida;
 
 public class UsuarioSalidaDTO {
 
+    private Long id;
     private String nombre;
     private String apellido;
     private String email;
     private String rol;
 
-    public UsuarioSalidaDTO(String nombre, String apellido, String email, String rol) {
+    public UsuarioSalidaDTO(Long id, String nombre, String apellido, String email, String rol) {
+        this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
         this.rol = rol;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public UsuarioSalidaDTO() {}

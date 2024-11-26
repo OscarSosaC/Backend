@@ -31,6 +31,10 @@ public class Usuario implements UserDetails {
         return List.of(new SimpleGrantedAuthority(rol.name()));
     }
 
+    public Integer getId() {
+        return id;
+    }
+
     public String getNombre() {
         return nombre;
     }

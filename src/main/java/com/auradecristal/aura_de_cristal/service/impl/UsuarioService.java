@@ -111,6 +111,7 @@ public class UsuarioService implements IUsuarioService {
     private void configureMapping() {
         modelMapper.typeMap(Usuario.class, UsuarioSalidaDTO.class)
                 .addMappings(mapper -> {
+                    mapper.map(Usuario::getId, UsuarioSalidaDTO::setId);
                     mapper.map(Usuario::getApellido, UsuarioSalidaDTO::setApellido);
                     mapper.map(Usuario::getNombre, UsuarioSalidaDTO::setNombre);
                     mapper.map(Usuario::getEmail, UsuarioSalidaDTO::setEmail);
