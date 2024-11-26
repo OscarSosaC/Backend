@@ -41,7 +41,7 @@ public class AuthenticationService {
 
     }
 
-    public AuthenticationResponse login(AuthenticationRequest request){
+    public AuthenticationResponse login(AuthenticationRequest request) {
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -53,9 +53,18 @@ public class AuthenticationService {
         Usuario usuario = IUsuarioRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("No existe el usuario"));
 
+        // Generar el token JWT
         String token = jwtService.generateToken(usuario);
+
+        // Construir la respuesta con los datos del usuario y el token
         return AuthenticationResponse.builder()
                 .token(token)
+                .id(usuario.getId())
+                .nombre(usuario.getNombre())
+                .apellido(usuario.getApellido())
+                .email(usuario.getEmail())
+                .rol(usuario.getRol().name())
                 .build();
     }
+
 }
