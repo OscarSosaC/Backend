@@ -16,7 +16,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
-    private final IUsuarioRepository IUsuarioRepository;
+    private final IUsuarioRepository usuarioRepository;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
@@ -29,14 +29,19 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .rol(Rol.USER)
                 .build();
-        Optional<Usuario> usuarioBD = IUsuarioRepository.findByEmail(usuario.getEmail());
+        Optional<Usuario> usuarioBD = usuarioRepository.findByEmail(usuario.getEmail());
         if(usuarioBD.isPresent()){
             throw  new IllegalArgumentException("El usuario ya existe.");
         }
-        IUsuarioRepository.save(usuario);
+        Usuario usuarioGuardado = usuarioRepository.save(usuario);
         String token = jwtService.generateToken(usuario);
         return AuthenticationResponse.builder()
                 .token(token)
+                .id(usuarioGuardado.getId())
+                .nombre(usuarioGuardado.getNombre())
+                .apellido(usuarioGuardado.getApellido())
+                .email(usuarioGuardado.getEmail())
+                .rol(usuarioGuardado.getRol().name())
                 .build();
 
     }
@@ -50,7 +55,7 @@ public class AuthenticationService {
                 )
         );
 
-        Usuario usuario = IUsuarioRepository.findByEmail(request.getEmail())
+        Usuario usuario = usuarioRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("No existe el usuario"));
 
         // Generar el token JWT
