@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -166,6 +167,22 @@ public class ProductoService implements IProdutoService {
         LOGGER.warn("Producto actualizado: {}", JsonPrinter.toString(productoSalidaDTO));
 
         return productoSalidaDTO;
+    }
+
+    @Override
+    public List<ProductoSalidaDTO> obtenerProductosPorFechaODescripcion(LocalDate fechaInicio, LocalDate fechaFin, String descripcion) {
+        if (fechaInicio == null || fechaFin == null) {
+            // Si no se proporcionan fechas, solo buscar por descripcion
+            return productoRepository.findProductosDisponiblesSinFechas(descripcion)
+                    .stream()
+                    .map(producto -> modelMapper.map(producto, ProductoSalidaDTO.class))
+                    .toList();
+        }
+        // Si se proporcionan fechas, buscar con los rangos de fechas y descripcion
+        return productoRepository.findProductosDisponiblesConFechas(fechaInicio, fechaFin, descripcion)
+                .stream()
+                .map(producto -> modelMapper.map(producto, ProductoSalidaDTO.class))
+                .toList();
     }
 
     @Transactional

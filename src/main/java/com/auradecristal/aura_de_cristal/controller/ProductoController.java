@@ -11,6 +11,8 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -28,6 +30,14 @@ public class ProductoController {
     @GetMapping("/listar")
     public ResponseEntity<List<ProductoSalidaDTO>> listarProductos () {
         return new ResponseEntity<>(productoService.listarProductos(), HttpStatus.OK);
+    }
+
+    @GetMapping("/disponibles")
+    public ResponseEntity<List<ProductoSalidaDTO>> listarProductos(
+            @RequestParam(required = false) LocalDate fechaInicio,
+            @RequestParam(required = false) LocalDate fechaFin,
+            @RequestParam(required = false) String descripcion) {
+        return new ResponseEntity<>(productoService.obtenerProductosPorFechaODescripcion(fechaInicio, fechaFin, descripcion), HttpStatus.OK);
     }
 
     @GetMapping("/aleatorios")

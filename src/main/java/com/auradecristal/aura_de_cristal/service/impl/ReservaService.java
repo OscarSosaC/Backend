@@ -3,6 +3,7 @@ package com.auradecristal.aura_de_cristal.service.impl;
 import com.auradecristal.aura_de_cristal.dto.entrada.ReservaEntradaDTO;
 import com.auradecristal.aura_de_cristal.dto.salida.ProductoSalidaDTO;
 import com.auradecristal.aura_de_cristal.dto.salida.ReservaSalidaDTO;
+import com.auradecristal.aura_de_cristal.dto.salida.UsuarioSalidaDTO;
 import com.auradecristal.aura_de_cristal.entity.Producto;
 import com.auradecristal.aura_de_cristal.entity.Reserva;
 import com.auradecristal.aura_de_cristal.entity.Usuario;
@@ -106,4 +107,5 @@ public class ReservaService implements IReservaService {
         LOGGER.info("Reserva actualizada: {}", JsonPrinter.toString(reservaSalidaDTO));
         return reservaSalidaDTO;
     }
+
 }

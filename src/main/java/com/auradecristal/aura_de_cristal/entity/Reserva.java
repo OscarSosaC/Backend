@@ -10,7 +10,7 @@ public class Reserva {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idReserva;
     @ManyToOne
     @JoinColumn(name = "producto_id", nullable = false)
     private Producto producto;
@@ -29,8 +29,8 @@ public class Reserva {
     public Reserva() {
     }
 
-    public Reserva(Long id, Producto producto, Usuario usuario, LocalDate fechaInicio, LocalDate fechaFin, String estado, int cantidad) {
-        this.id = id;
+    public Reserva(Long idReserva, Producto producto, Usuario usuario, LocalDate fechaInicio, LocalDate fechaFin, String estado, int cantidad) {
+        this.idReserva = idReserva;
         this.producto = producto;
         this.usuario = usuario;
         this.fechaInicio = fechaInicio;
@@ -39,12 +39,12 @@ public class Reserva {
         this.cantidad = cantidad;
     }
 
-    public Long getId() {
-        return id;
+    public Long getIdReserva() {
+        return idReserva;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdReserva(Long idReserva) {
+        this.idReserva = idReserva;
     }
 
     public Producto getProducto() {
