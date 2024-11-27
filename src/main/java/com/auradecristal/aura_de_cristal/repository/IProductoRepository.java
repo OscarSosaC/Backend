@@ -20,7 +20,7 @@ public interface IProductoRepository extends JpaRepository<Producto, Long> {
     List<Producto> findProductosDisponiblesSinFechas(@Param("descripcion") String descripcion);
     @Query("SELECT p FROM Producto p WHERE ((:descripcion IS NULL OR p.descripcion LIKE %:descripcion%) OR (:descripcion IS NULL OR p.nombre LIKE %:descripcion%)) AND " +
             "NOT EXISTS (SELECT r FROM Reserva r WHERE r.producto.id = p.id " +
-            "AND r.estado = 'ACTIVA' AND (:fechaFin >= r.fechaInicio AND :fechaInicio <= r.fechaFin))")
+            "AND (:fechaFin >= r.fechaInicio AND :fechaInicio <= r.fechaFin))")
     List<Producto> findProductosDisponiblesConFechas(@Param("fechaInicio") LocalDate fechaInicio,
                                                      @Param("fechaFin") LocalDate fechaFin,
                                                      @Param("descripcion") String descripcion);

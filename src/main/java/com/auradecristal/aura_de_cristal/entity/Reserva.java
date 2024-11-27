@@ -21,21 +21,18 @@ public class Reserva {
     private LocalDate fechaInicio;
     @Column(name = "fecha_fin", nullable = false)
     private LocalDate fechaFin;
-    @Column(name = "estado", nullable = false)
-    private String estado; // ej. "ACTIVA", "FINALIZADA", "CANCELADA"
     @Column(name = "cantidad", nullable = false)
     private int cantidad;
 
     public Reserva() {
     }
 
-    public Reserva(Long idReserva, Producto producto, Usuario usuario, LocalDate fechaInicio, LocalDate fechaFin, String estado, int cantidad) {
+    public Reserva(Long idReserva, Producto producto, Usuario usuario, LocalDate fechaInicio, LocalDate fechaFin, int cantidad) {
         this.idReserva = idReserva;
         this.producto = producto;
         this.usuario = usuario;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
-        this.estado = estado;
         this.cantidad = cantidad;
     }
 
@@ -77,14 +74,6 @@ public class Reserva {
 
     public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
     }
 
     public int getCantidad() {

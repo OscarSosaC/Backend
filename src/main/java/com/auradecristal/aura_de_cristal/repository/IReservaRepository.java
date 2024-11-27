@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface IReservaRepository extends JpaRepository<Reserva, Long> {
 
-    @Query("SELECT r FROM Reserva r WHERE r.producto.id = :productoId AND r.estado = 'ACTIVA' " +
+    @Query("SELECT r FROM Reserva r WHERE r.producto.id = :productoId " +
             "AND (:fechaFin >= r.fechaInicio AND :fechaInicio <= r.fechaFin)")
     List<Reserva> findReservasActivasEnRango(@Param("productoId") Long productoId, @Param("fechaInicio") LocalDate fechaInicio, @Param("fechaFin") LocalDate fechaFin);
     List<Reserva> findByUsuario_Id(@Param("usuarioId") Long usuarioId);
