@@ -1,5 +1,8 @@
 package com.auradecristal.aura_de_cristal.entity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -14,9 +17,12 @@ public class Producto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idProducto;
     @Column(length = 100)
+    @NotNull
     private String nombre;
     @Column(length = 1000)
+    @NotNull
     private String descripcion;
+    @Min(0)
     private double precio_alquiler;
     private int disponibilidad;
     @Column(length = 50)
@@ -64,14 +70,6 @@ public class Producto {
         this.caracteristicas = caracteristicas;
         this.imagenes = imagenes;
         this.reservas = reservas;
-    }
-
-    public Long getidProducto() {
-        return idProducto;
-    }
-
-    public void setidProducto(Long idProducto) {
-        this.idProducto = idProducto;
     }
 
     public String getNombre() {

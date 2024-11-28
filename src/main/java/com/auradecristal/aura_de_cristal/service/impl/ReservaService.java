@@ -58,7 +58,7 @@ public class ReservaService implements IReservaService {
     }
 
     @Override
-    public List<ReservaSalidaDTO> buscarReservasXUsarioId(Long usuarioId) {
+    public List<ReservaSalidaDTO> buscarReservasXUsuarioId(Long usuarioId) {
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
 
@@ -73,6 +73,25 @@ public class ReservaService implements IReservaService {
                 .toList();
 
         LOGGER.info("Reservas encontradas para el usuario {}: {}", usuarioId, JsonPrinter.toString(reservasSalidaDTO));
+        return reservasSalidaDTO;
+    }
+
+    @Override
+    public List<ReservaSalidaDTO> buscarReservasXProductoId(Long productoId) {
+        Producto producto = productoRepository.findById(productoId)
+                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
+
+        List<Reserva> reservas = reservaRepository.findByProducto_IdProducto(producto.getIdProducto());
+
+        if (reservas.isEmpty()) {
+            throw new EntityNotFoundException("No se encontraron reservas para el producto con ID: " + productoId);
+        }
+
+        List<ReservaSalidaDTO> reservasSalidaDTO = reservas.stream()
+                .map(reserva -> modelMapper.map(reserva, ReservaSalidaDTO.class))
+                .toList();
+
+        LOGGER.info("Reservas encontradas para el producto {}: {}", productoId, JsonPrinter.toString(reservasSalidaDTO));
         return reservasSalidaDTO;
     }
 

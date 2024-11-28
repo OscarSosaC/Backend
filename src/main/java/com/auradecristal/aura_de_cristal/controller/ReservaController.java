@@ -39,7 +39,22 @@ public class ReservaController {
     @GetMapping("/usuario/{usuarioId}")
     public ResponseEntity<?> buscarReservasPorUsuario(@PathVariable Long usuarioId) {
         try {
-            List<ReservaSalidaDTO> reservas = reservaService.buscarReservasXUsarioId(usuarioId);
+            List<ReservaSalidaDTO> reservas = reservaService.buscarReservasXUsuarioId(usuarioId);
+            if (reservas.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build(); // HTTP 204
+            }
+            return ResponseEntity.ok(reservas); // HTTP 200
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage()); // HTTP 404
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al buscar reservas"); // HTTP 500
+        }
+    }
+
+    @GetMapping("/producto/{productoId}")
+    public ResponseEntity<?> buscarReservasPorProducto(@PathVariable Long productoId) {
+        try {
+            List<ReservaSalidaDTO> reservas = reservaService.buscarReservasXProductoId(productoId);
             if (reservas.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build(); // HTTP 204
             }

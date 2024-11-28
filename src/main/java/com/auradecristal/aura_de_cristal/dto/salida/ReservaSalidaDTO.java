@@ -8,20 +8,20 @@ public class ReservaSalidaDTO {
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private int cantidad;
-    private ProductoSalidaDTO producto;
-    private UsuarioSalidaDTO usuario;
+    private Long productoId;
+    private Long usuarioId;
 
     public ReservaSalidaDTO() {
     }
 
     // Constructor
-    public ReservaSalidaDTO(Long id, LocalDate fechaInicio, LocalDate fechaFin, int cantidad, ProductoSalidaDTO producto, UsuarioSalidaDTO usuario) {
+    public ReservaSalidaDTO(Long id, LocalDate fechaInicio, LocalDate fechaFin, int cantidad, Long productoId, Long usuarioId) {
         this.id = id;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.cantidad = cantidad;
-        this.producto = producto;
-        this.usuario = usuario;
+        this.productoId = productoId;
+        this.usuarioId = usuarioId;
     }
 
     // Getters y Setters
@@ -57,19 +57,19 @@ public class ReservaSalidaDTO {
         this.cantidad = cantidad;
     }
 
-    public ProductoSalidaDTO getProducto() {
-        return producto;
+    public Long getProductoId() {
+        return productoId;
     }
 
-    public void setProducto(ProductoSalidaDTO producto) {
-        this.producto = producto;
+    public void setProductoId(Long productoId) {
+        this.productoId = productoId;
     }
 
-    public UsuarioSalidaDTO getUsuario() {
-        return usuario;
+    public Long getUsuarioId() {
+        return usuarioId;
     }
 
-    public void setUsuario(UsuarioSalidaDTO usuario) {
-        this.usuario = usuario;
+    public void setUsuarioId(Long usuarioId) {
+        this.usuarioId = usuarioId;
     }
 }

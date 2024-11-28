@@ -1,5 +1,7 @@
 package com.auradecristal.aura_de_cristal.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -13,9 +15,11 @@ public class Reserva {
     private Long idReserva;
     @ManyToOne
     @JoinColumn(name = "producto_id", nullable = false)
+    @JsonIgnore
     private Producto producto;
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
+    @JsonIgnore
     private Usuario usuario;
     @Column(name = "fecha_inicio", nullable = false)
     private LocalDate fechaInicio;

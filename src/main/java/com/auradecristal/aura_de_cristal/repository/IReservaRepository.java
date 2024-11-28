@@ -14,4 +14,6 @@ public interface IReservaRepository extends JpaRepository<Reserva, Long> {
             "AND (:fechaFin >= r.fechaInicio AND :fechaInicio <= r.fechaFin)")
     List<Reserva> findReservasActivasEnRango(@Param("productoId") Long productoId, @Param("fechaInicio") LocalDate fechaInicio, @Param("fechaFin") LocalDate fechaFin);
     List<Reserva> findByUsuario_Id(@Param("usuarioId") Long usuarioId);
+    List<Reserva> findByProducto_IdProducto(@Param("productoId") Long productoId);
+
 }

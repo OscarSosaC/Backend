@@ -10,7 +10,8 @@ import java.util.List;
 public interface IReservaService {
 
     ReservaSalidaDTO registrarReserva(ReservaEntradaDTO reservaEntradaDTO);
-    public List<ReservaSalidaDTO> buscarReservasXUsarioId(Long usuarioId);
+    public List<ReservaSalidaDTO> buscarReservasXUsuarioId(Long usuarioId);
+    List<ReservaSalidaDTO> buscarReservasXProductoId(Long productoId);
     void eliminarReserva(Long idReserva);
     ReservaSalidaDTO actualizarReserva(ReservaEntradaDTO reservaEntradaDTO, Long idReserva);
 
