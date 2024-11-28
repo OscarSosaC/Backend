@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -26,11 +27,14 @@ public class UsuarioService implements IUsuarioService {
     private IUsuarioRepository usuarioRepository;
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     private final Logger LOGGER = LoggerFactory.getLogger(UsuarioService.class);
 
-    public UsuarioService(IUsuarioRepository usuarioRepository, ModelMapper modelMapper) {
+    public UsuarioService(IUsuarioRepository usuarioRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.modelMapper = modelMapper;
+        this.passwordEncoder = passwordEncoder;
         configureMapping();
     }
 
@@ -85,7 +89,11 @@ public class UsuarioService implements IUsuarioService {
             usuarioExistente.setNombre(usuarioActualizadoDTO.getNombre());
             usuarioExistente.setApellido(usuarioActualizadoDTO.getApellido());
             usuarioExistente.setEmail(usuarioActualizadoDTO.getEmail());
-            usuarioExistente.setPassword(usuarioActualizadoDTO.getPassword());
+
+            if (usuarioActualizadoDTO.getPassword() != null && !usuarioActualizadoDTO.getPassword().isEmpty()) {
+                usuarioExistente.setPassword(passwordEncoder.encode(usuarioActualizadoDTO.getPassword()));
+            }
+
             //Validacion para que el rol asignado si correponda
             if (Arrays.stream(Rol.values()).noneMatch(r -> r.name().equalsIgnoreCase(usuarioActualizadoDTO.getRol()))) {
                 throw new IllegalArgumentException("Rol inválido: " + usuarioActualizadoDTO.getRol());
