@@ -21,19 +21,15 @@ public class ReservaEntradaDTO {
     @FutureOrPresent(message = "La fecha de fin debe ser hoy o en el futuro.")
     private LocalDate fechaFin;
 
-    @Positive(message = "La cantidad reservada debe ser mayor que cero.")
-    private int cantidad;
-
     public ReservaEntradaDTO() {
     }
 
     // Constructor
-    public ReservaEntradaDTO(Long productoId, Long usuarioId, LocalDate fechaInicio, LocalDate fechaFin, int cantidad) {
+    public ReservaEntradaDTO(Long productoId, Long usuarioId, LocalDate fechaInicio, LocalDate fechaFin) {
         this.productoId = productoId;
         this.usuarioId = usuarioId;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
-        this.cantidad = cantidad;
     }
 
     // Getters y Setters
@@ -67,13 +63,5 @@ public class ReservaEntradaDTO {
 
     public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
-    }
-
-    public int getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
     }
 }

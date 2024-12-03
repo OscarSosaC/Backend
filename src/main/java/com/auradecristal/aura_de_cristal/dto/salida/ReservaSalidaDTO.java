@@ -4,10 +4,9 @@ import java.time.LocalDate;
 
 public class ReservaSalidaDTO {
 
-    private Long id;
+    private Long idReserva;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
-    private int cantidad;
     private Long productoId;
     private Long usuarioId;
 
@@ -15,22 +14,21 @@ public class ReservaSalidaDTO {
     }
 
     // Constructor
-    public ReservaSalidaDTO(Long id, LocalDate fechaInicio, LocalDate fechaFin, int cantidad, Long productoId, Long usuarioId) {
-        this.id = id;
+    public ReservaSalidaDTO(Long idReserva, LocalDate fechaInicio, LocalDate fechaFin, Long productoId, Long usuarioId) {
+        this.idReserva = idReserva;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
-        this.cantidad = cantidad;
         this.productoId = productoId;
         this.usuarioId = usuarioId;
     }
 
     // Getters y Setters
-    public Long getId() {
-        return id;
+    public Long getIdReserva() {
+        return idReserva;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdReserva(Long idReserva) {
+        this.idReserva = idReserva;
     }
 
     public LocalDate getFechaInicio() {
@@ -47,14 +45,6 @@ public class ReservaSalidaDTO {
 
     public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
-    }
-
-    public int getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
     }
 
     public Long getProductoId() {

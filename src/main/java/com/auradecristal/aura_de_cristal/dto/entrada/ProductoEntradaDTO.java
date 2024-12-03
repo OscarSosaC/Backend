@@ -21,12 +21,6 @@ public class ProductoEntradaDTO {
     @Positive(message = "El precio de alquiler debe ser un valor positivo")
     private double precio_alquiler;
 
-    @PositiveOrZero(message = "La disponibilidad debe ser cero o positiva")
-    private int disponibilidad;
-
-    @PositiveOrZero(message = "El inventario debe ser cero o positivo")
-    private int inventario;
-
     @NotNull(message = "Debe especificarse la categoria a la que pertenece el producto")
     private Long categoria_id;
 
@@ -39,12 +33,10 @@ public class ProductoEntradaDTO {
     @NotNull(message = "Debe ingresar al menos una caracteristica para el producto")
     private List<Long> caracteristicaIds;
 
-    public ProductoEntradaDTO(String nombre, String descripcion, double precio_alquiler, int disponibilidad, int inventario, Long categoria_id, Long tematica_id, List<String> imagenes, List<Long> caracteristicaIds) {
+    public ProductoEntradaDTO(String nombre, String descripcion, double precio_alquiler, Long categoria_id, Long tematica_id, List<String> imagenes, List<Long> caracteristicaIds) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio_alquiler = precio_alquiler;
-        this.disponibilidad = disponibilidad;
-        this.inventario = inventario;
         this.categoria_id = categoria_id;
         this.tematica_id = tematica_id;
         this.imagenes = imagenes;
@@ -74,22 +66,6 @@ public class ProductoEntradaDTO {
 
     public void setPrecio_alquiler(double precio_alquiler) {
         this.precio_alquiler = precio_alquiler;
-    }
-
-    public int getDisponibilidad() {
-        return disponibilidad;
-    }
-
-    public void setDisponibilidad(int disponibilidad) {
-        this.disponibilidad = disponibilidad;
-    }
-
-    public int getInventario() {
-        return inventario;
-    }
-
-    public void setInventario(int inventario) {
-        this.inventario = inventario;
     }
 
     public Long getCategoria_id() {

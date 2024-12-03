@@ -20,7 +20,7 @@ import java.util.List;
 public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idUsuario;
     private String nombre;
     private String apellido;
     private String email;
@@ -36,8 +36,8 @@ public class Usuario implements UserDetails {
         return List.of(new SimpleGrantedAuthority(rol.name()));
     }
 
-    public Long getId() {
-        return id;
+    public Long getIdUsuario() {
+        return idUsuario;
     }
 
     public String getNombre() {
@@ -101,7 +101,7 @@ public class Usuario implements UserDetails {
     @Override
     public String toString() {
         return "Usuario {" +
-                "id=" + id +
+                "id=" + idUsuario +
                 ", nombre='" + nombre + '\'' +
                 ", apellido='" + apellido + '\'' +
                 ", email='" + email + '\'' +

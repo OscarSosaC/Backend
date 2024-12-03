@@ -158,8 +158,6 @@ public class ProductoService implements IProdutoService {
         productoAActualizar.setNombre(productoEntradaDTO.getNombre());
         productoAActualizar.setDescripcion(productoEntradaDTO.getDescripcion());
         productoAActualizar.setPrecio_alquiler(productoEntradaDTO.getPrecio_alquiler());
-        productoAActualizar.setDisponibilidad(productoEntradaDTO.getDisponibilidad());
-        productoAActualizar.setInventario(productoEntradaDTO.getInventario());
 
         productoRepository.save(productoAActualizar);
 
@@ -215,8 +213,6 @@ public class ProductoService implements IProdutoService {
                     mapper.map(ProductoEntradaDTO::getNombre, Producto::setNombre);
                     mapper.map(ProductoEntradaDTO::getDescripcion, Producto::setDescripcion);
                     mapper.map(ProductoEntradaDTO::getPrecio_alquiler, Producto::setPrecio_alquiler);
-                    mapper.map(ProductoEntradaDTO::getDisponibilidad, Producto::setDisponibilidad);
-                    mapper.map(ProductoEntradaDTO::getInventario, Producto::setInventario);
                     mapper.skip(Producto::setCaracteristicas);
                     mapper.skip(Producto::setImagenes);
 

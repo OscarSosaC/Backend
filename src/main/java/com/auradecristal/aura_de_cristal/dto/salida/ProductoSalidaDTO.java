@@ -14,23 +14,19 @@ public class ProductoSalidaDTO {
     private String nombre;
     private String descripcion;
     private double precio_alquiler;
-    private int disponibilidad;
     private LocalDateTime fecha_registro;
-    private int inventario;
     private CategoriaSalidaDTO categoria;
     private TematicaSalidaDTO tematica;
     private List<ImagenSalidaDTO> imagenes;
     private List<CaracteristicaSalidaDTO> caracteristicas;
     private List<ReservaSalidaDTO> reservas;
 
-    public ProductoSalidaDTO(Long id, String nombre, String descripcion, double precio_alquiler, int disponibilidad, LocalDateTime fecha_registro, int inventario, Categoria categoria, Tematica tematica, List<Imagen> imagenes, List<Caracteristica> caracteristicas, List<ReservaSalidaDTO> reservas) {
+    public ProductoSalidaDTO(Long id, String nombre, String descripcion, double precio_alquiler, LocalDateTime fecha_registro, Categoria categoria, Tematica tematica, List<Imagen> imagenes, List<Caracteristica> caracteristicas, List<ReservaSalidaDTO> reservas) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio_alquiler = precio_alquiler;
-        this.disponibilidad = disponibilidad;
         this.fecha_registro = fecha_registro;
-        this.inventario = inventario;
         this.categoria = new CategoriaSalidaDTO(categoria.getidCategoria(), categoria.getDescripcion());
         this.tematica = new TematicaSalidaDTO(tematica.getidTematica(), tematica.getDescripcion());
         this.imagenes = convertirListaImagenesAListaImagenesSalidaDTO(imagenes);
@@ -90,28 +86,12 @@ public class ProductoSalidaDTO {
         this.precio_alquiler = precio_alquiler;
     }
 
-    public int getDisponibilidad() {
-        return disponibilidad;
-    }
-
-    public void setDisponibilidad(int disponibilidad) {
-        this.disponibilidad = disponibilidad;
-    }
-
     public LocalDateTime getFecha_registro() {
         return fecha_registro;
     }
 
     public void setFecha_registro(LocalDateTime fecha_registro) {
         this.fecha_registro = fecha_registro;
-    }
-
-    public int getInventario() {
-        return inventario;
-    }
-
-    public void setInventario(int inventario) {
-        this.inventario = inventario;
     }
 
     public CategoriaSalidaDTO getCategoria() {

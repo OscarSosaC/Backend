@@ -37,7 +37,7 @@ public class AuthenticationService {
         String token = jwtService.generateToken(usuario);
         return AuthenticationResponse.builder()
                 .token(token)
-                .id(usuarioGuardado.getId())
+                .id(usuarioGuardado.getIdUsuario())
                 .nombre(usuarioGuardado.getNombre())
                 .apellido(usuarioGuardado.getApellido())
                 .email(usuarioGuardado.getEmail())
@@ -69,7 +69,7 @@ public class AuthenticationService {
         // Construir la respuesta con los datos del usuario y el token
         return AuthenticationResponse.builder()
                 .token(token)
-                .id(usuario.getId())
+                .id(usuario.getIdUsuario())
                 .nombre(usuario.getNombre())
                 .apellido(usuario.getApellido())
                 .email(usuario.getEmail())

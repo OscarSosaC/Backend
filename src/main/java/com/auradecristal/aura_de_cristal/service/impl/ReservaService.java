@@ -1,9 +1,7 @@
 package com.auradecristal.aura_de_cristal.service.impl;
 
 import com.auradecristal.aura_de_cristal.dto.entrada.ReservaEntradaDTO;
-import com.auradecristal.aura_de_cristal.dto.salida.ProductoSalidaDTO;
 import com.auradecristal.aura_de_cristal.dto.salida.ReservaSalidaDTO;
-import com.auradecristal.aura_de_cristal.dto.salida.UsuarioSalidaDTO;
 import com.auradecristal.aura_de_cristal.entity.Producto;
 import com.auradecristal.aura_de_cristal.entity.Reserva;
 import com.auradecristal.aura_de_cristal.entity.Usuario;
@@ -14,6 +12,7 @@ import com.auradecristal.aura_de_cristal.service.IReservaService;
 import com.auradecristal.aura_de_cristal.util.JsonPrinter;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,14 +38,15 @@ public class ReservaService implements IReservaService {
         this.productoRepository = productoRepository;
         this.usuarioRepository = usuarioRepository;
         this.modelMapper = modelMapper;
+        configureMapping();
     }
 
     @Override
     public ReservaSalidaDTO registrarReserva(ReservaEntradaDTO reservaEntradaDTO) {
         Reserva reserva = modelMapper.map(reservaEntradaDTO, Reserva.class);
-        Producto producto = productoRepository.findById(reserva.getProducto().getIdProducto())
+        Producto producto = productoRepository.findById(reservaEntradaDTO.getProductoId())
                 .orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
-        Usuario usuario = usuarioRepository.findById(reserva.getUsuario().getId())
+        Usuario usuario = usuarioRepository.findById(reservaEntradaDTO.getUsuarioId())
                 .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
         reserva.setProducto(producto);
         reserva.setUsuario(usuario);
@@ -62,7 +62,7 @@ public class ReservaService implements IReservaService {
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
 
-        List<Reserva> reservas = reservaRepository.findByUsuario_Id(usuario.getId());
+        List<Reserva> reservas = reservaRepository.findByUsuario_IdUsuario(usuario.getIdUsuario());
 
         if (reservas.isEmpty()) {
             throw new EntityNotFoundException("No se encontraron reservas para el usuario con ID: " + usuarioId);
@@ -116,7 +116,6 @@ public class ReservaService implements IReservaService {
 
         reservaExistente.setFechaInicio(reservaEntradaDTO.getFechaInicio());
         reservaExistente.setFechaFin(reservaEntradaDTO.getFechaFin());
-        reservaExistente.setCantidad(reservaEntradaDTO.getCantidad());
         reservaExistente.setProducto(producto);
         reservaExistente.setUsuario(usuario);
 
@@ -127,4 +126,21 @@ public class ReservaService implements IReservaService {
         return reservaSalidaDTO;
     }
 
+    private void configureMapping() {
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        /*modelMapper.typeMap(ReservaEntradaDTO.class, Reserva.class)
+                .addMappings(mapper -> {
+                    mapper.skip(Reserva::setIdReserva); // Ignorar setIdReserva
+                    mapper.skip(Reserva::setProducto);
+                    mapper.skip(Reserva::setUsuario);
+                    mapper.map(ReservaEntradaDTO::getFechaInicio, Reserva::setFechaInicio);
+                    mapper.map(ReservaEntradaDTO::getFechaFin, Reserva::setFechaFin);
+                });*/
+
+        modelMapper.typeMap(Reserva.class, ReservaSalidaDTO.class)
+                .addMappings(mapper -> mapper.map(source -> source.getProducto().getIdProducto(), ReservaSalidaDTO::setProductoId))
+                .addMappings(mapper -> mapper.map(source -> source.getUsuario().getIdUsuario(), ReservaSalidaDTO::setUsuarioId))
+                .addMappings(mapper -> mapper.map(Reserva::getFechaInicio, ReservaSalidaDTO::setFechaInicio))
+                .addMappings(mapper -> mapper.map(Reserva::getFechaFin, ReservaSalidaDTO::setFechaFin));
+    }
 }

@@ -24,10 +24,8 @@ public class Producto {
     private String descripcion;
     @Min(0)
     private double precio_alquiler;
-    private int disponibilidad;
     @Column(length = 50)
     private LocalDateTime fecha_registro;
-    private int inventario;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "categoria_id", referencedColumnName = "idCategoria")
     private Categoria categoria;
@@ -57,14 +55,12 @@ public class Producto {
         this.caracteristicas = new HashSet<>();
     }
 
-    public Producto(Long idProducto, String nombre, String descripcion, double precio_alquiler, int disponibilidad, LocalDateTime fecha_registro, int inventario, Categoria categoria, Tematica tematica, Set<Caracteristica> caracteristicas, List<Imagen> imagenes, List<Reserva> reservas) {
+    public Producto(Long idProducto, String nombre, String descripcion, double precio_alquiler, LocalDateTime fecha_registro, Categoria categoria, Tematica tematica, Set<Caracteristica> caracteristicas, List<Imagen> imagenes, List<Reserva> reservas) {
         this.idProducto = idProducto;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio_alquiler = precio_alquiler;
-        this.disponibilidad = disponibilidad;
         this.fecha_registro = fecha_registro;
-        this.inventario = inventario;
         this.categoria = categoria;
         this.tematica = tematica;
         this.caracteristicas = caracteristicas;
@@ -96,28 +92,12 @@ public class Producto {
         this.precio_alquiler = precio_alquiler;
     }
 
-    public int getDisponibilidad() {
-        return disponibilidad;
-    }
-
-    public void setDisponibilidad(int disponibilidad) {
-        this.disponibilidad = disponibilidad;
-    }
-
     public LocalDateTime getFecha_registro() {
         return fecha_registro;
     }
 
     public void setFecha_registro(LocalDateTime fecha_registro) {
         this.fecha_registro = fecha_registro;
-    }
-
-    public int getInventario() {
-        return inventario;
-    }
-
-    public void setInventario(int inventario) {
-        this.inventario = inventario;
     }
 
     public Categoria getCategoria() {

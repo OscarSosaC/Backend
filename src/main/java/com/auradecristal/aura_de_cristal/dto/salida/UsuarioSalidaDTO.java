@@ -4,15 +4,15 @@ import java.util.List;
 
 public class UsuarioSalidaDTO {
 
-    private Long id;
+    private Long idUsuario;
     private String nombre;
     private String apellido;
     private String email;
     private String rol;
     private List<ReservaSalidaDTO> reservas;
 
-    public UsuarioSalidaDTO(Long id, String nombre, String apellido, String email, String rol, List<ReservaSalidaDTO> reservas) {
-        this.id = id;
+    public UsuarioSalidaDTO(Long idUsuario, String nombre, String apellido, String email, String rol, List<ReservaSalidaDTO> reservas) {
+        this.idUsuario = idUsuario;
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
@@ -20,12 +20,12 @@ public class UsuarioSalidaDTO {
         this.reservas = reservas;
     }
 
-    public Long getId() {
-        return id;
+    public Long getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdUsuario(Long idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public UsuarioSalidaDTO() {}
