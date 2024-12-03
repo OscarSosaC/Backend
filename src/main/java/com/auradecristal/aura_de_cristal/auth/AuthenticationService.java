@@ -46,6 +46,11 @@ public class AuthenticationService {
 
     }
 
+    public Usuario getUsuarioPorEmail(String email) {
+        return usuarioRepository.findByEmail(email)
+                .orElse(null);
+    }
+
     public AuthenticationResponse login(AuthenticationRequest request) {
 
         authenticationManager.authenticate(

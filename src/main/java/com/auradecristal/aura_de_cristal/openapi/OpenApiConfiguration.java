@@ -11,10 +11,10 @@ import io.swagger.v3.oas.annotations.servers.Server;
 @OpenAPIDefinition(
         info = @Info(
                 title = "Aura de Cristal",
-                version = "1.0",
+                version = "2.0",
                 description = "Esta es una aplicación realizada para el proyecto integrador DH - Equipo 4"
         ),
-        servers = @Server(url = "https://auradecristalapi-development.up.railway.app"), // URL con https
+        servers = @Server(url = "https://auradecristalapi-production.up.railway.app"), // URL con https
         security = {
                 @SecurityRequirement(name = "bearerAuth")
         }

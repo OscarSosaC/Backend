@@ -1,5 +1,6 @@
 package com.auradecristal.aura_de_cristal.auth;
 
+import com.auradecristal.aura_de_cristal.entity.Usuario;
 import com.auradecristal.aura_de_cristal.service.IEmailService;
 import com.auradecristal.aura_de_cristal.util.JsonPrinter;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,28 @@ public class AuthenticationController {
         } catch (IllegalArgumentException e) {
             LOGGER.error("Peticion POST register error: {}", JsonPrinter.toString(e.getMessage()));
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/resend-email")
+    ResponseEntity<?> resendEmail(@RequestParam String email) {
+        LOGGER.info("Petición POST resend-email para: {}", email);
+        try {
+            // Verificar si el usuario existe
+            Usuario usuario = authenticationService.getUsuarioPorEmail(email);
+            if (usuario == null) {
+                String mensajeError = "No existe un usuario registrado con el correo: " + email;
+                LOGGER.warn(mensajeError);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(mensajeError);
+            }
+
+            // Reenviar el correo
+            emailService.enviarCorreoRegistro(usuario.getNombre() + " " + usuario.getApellido(), email);
+            LOGGER.info("Correo reenviado exitosamente a: {}", email);
+            return ResponseEntity.ok("Correo reenviado exitosamente a: " + email);
+        } catch (Exception e) {
+            LOGGER.error("Error al reenviar el correo: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al reenviar el correo: " + e.getMessage());
         }
     }
 

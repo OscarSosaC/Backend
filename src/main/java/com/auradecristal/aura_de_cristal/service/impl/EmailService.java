@@ -15,7 +15,7 @@ public class EmailService implements IEmailService {
     private JavaMailSender mailSender;
 
     @Override
-    public void enviarCorreoRegistro(String usuario, String destinatario) {
+    public boolean enviarCorreoRegistro(String usuario, String destinatario) {
         try {
             MimeMessage mensaje = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mensaje, true);
@@ -36,7 +36,7 @@ public class EmailService implements IEmailService {
                             <p>Tu cuenta en <strong>Aura de Cristal</strong> ha sido creada exitosamente.</p>
                             <p>Para empezar a disfrutar de nuestros servicios, por favor inicia sesión haciendo clic en el botón de abajo:</p>
                             <div style="text-align: center; margin: 20px;">
-                                <a href="https://aura-de-cristal.vercel.app/login" style="display: inline-block; background-color: #0056b3; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-size: 16px;">
+                                <a href="https://aura-de-cristal.vercel.app" style="display: inline-block; background-color: #0056b3; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-size: 16px;">
                                     Iniciar Sesión
                                 </a>
                             </div>
@@ -49,6 +49,7 @@ public class EmailService implements IEmailService {
 
             helper.setText(contenidoHtml, true); // Activar HTML en el correo
             mailSender.send(mensaje);
+            return true;
 
         } catch (jakarta.mail.MessagingException e) {
             throw new RuntimeException("Error al enviar correo", e);
