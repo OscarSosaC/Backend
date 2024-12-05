@@ -1,26 +1,24 @@
 package com.auradecristal.aura_de_cristal.dto.salida;
 
-import com.auradecristal.aura_de_cristal.entity.Producto;
-
 public class ImagenSalidaDTO {
 
-    private Long id;
+    private Long idImagen;
     private String url;
 
     public ImagenSalidaDTO() {
     }
 
-    public ImagenSalidaDTO(Long id, String url) {
-        this.id = id;
+    public ImagenSalidaDTO(Long idImagen, String url) {
+        this.idImagen = idImagen;
         this.url = url;
     }
 
-    public Long getId() {
-        return id;
+    public Long getIdImagen() {
+        return idImagen;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdImagen(Long idImagen) {
+        this.idImagen = idImagen;
     }
 
     public String getUrl() {

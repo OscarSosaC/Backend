@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class ProductoSalidaDTO {
 
-    private Long id;
+    private Long idProducto;
     private String nombre;
     private String descripcion;
     private double precio_alquiler;
@@ -21,8 +21,8 @@ public class ProductoSalidaDTO {
     private List<CaracteristicaSalidaDTO> caracteristicas;
     private List<ReservaSalidaDTO> reservas;
 
-    public ProductoSalidaDTO(Long id, String nombre, String descripcion, double precio_alquiler, LocalDateTime fecha_registro, Categoria categoria, Tematica tematica, List<Imagen> imagenes, List<Caracteristica> caracteristicas, List<ReservaSalidaDTO> reservas) {
-        this.id = id;
+    public ProductoSalidaDTO(Long idProducto, String nombre, String descripcion, double precio_alquiler, LocalDateTime fecha_registro, Categoria categoria, Tematica tematica, List<Imagen> imagenes, List<Caracteristica> caracteristicas, List<ReservaSalidaDTO> reservas) {
+        this.idProducto = idProducto;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio_alquiler = precio_alquiler;
@@ -54,12 +54,12 @@ public class ProductoSalidaDTO {
 
     public ProductoSalidaDTO() {}
 
-    public Long getId() {
-        return id;
+    public Long getIdProducto() {
+        return idProducto;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdProducto(Long idProducto) {
+        this.idProducto = idProducto;
     }
 
     public String getNombre() {
