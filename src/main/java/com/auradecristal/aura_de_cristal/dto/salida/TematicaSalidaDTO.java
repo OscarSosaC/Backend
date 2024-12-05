@@ -2,23 +2,23 @@ package com.auradecristal.aura_de_cristal.dto.salida;
 
 public class TematicaSalidaDTO {
 
-    private Long id;
+    private Long idTematica;
     private String descripcion;
 
-    public TematicaSalidaDTO(Long id, String descripcion) {
-        this.id = id;
+    public TematicaSalidaDTO(Long idTematica, String descripcion) {
+        this.idTematica = idTematica;
         this.descripcion = descripcion;
     }
 
     public TematicaSalidaDTO() {
     }
 
-    public Long getId() {
-        return id;
+    public Long getIdTematica() {
+        return idTematica;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdTematica(Long idTematica) {
+        this.idTematica = idTematica;
     }
 
     public String getDescripcion() {
