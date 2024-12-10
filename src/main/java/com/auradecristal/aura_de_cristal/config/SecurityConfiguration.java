@@ -32,10 +32,18 @@ public class SecurityConfiguration {
                     auth.requestMatchers("/auth/**").permitAll();
                     auth.requestMatchers(HttpMethod.OPTIONS).permitAll(); // *aca vamos a poner primero la parte de options*
                     auth.requestMatchers(HttpMethod.GET).permitAll();
-                    auth.requestMatchers("/usuarios/**").authenticated();
+
+                    //acceso a endpoints específicos de reservas para USER y ADMIN
+                    auth.requestMatchers(HttpMethod.POST, "/reservas/**").hasAnyAuthority("USER", "ADMIN");
+                    auth.requestMatchers(HttpMethod.PUT, "/reservas/**").hasAnyAuthority("USER", "ADMIN");
+                    auth.requestMatchers(HttpMethod.DELETE, "/reservas/**").hasAnyAuthority("USER", "ADMIN");
+
                     auth.requestMatchers(HttpMethod.POST, "/**").hasAuthority("ADMIN");
                     auth.requestMatchers(HttpMethod.PUT, "/**").hasAuthority("ADMIN");
                     auth.requestMatchers(HttpMethod.DELETE, "/**").hasAuthority("ADMIN");
+
+                    auth.requestMatchers("/usuarios/**").authenticated();
+
                     auth.anyRequest().authenticated(); // Resto requiere autenticación
                 })
                 .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

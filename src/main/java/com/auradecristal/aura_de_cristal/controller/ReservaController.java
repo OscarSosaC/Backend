@@ -30,6 +30,8 @@ public class ReservaController {
             return ResponseEntity.status(HttpStatus.CREATED).body(reservaSalidaDTO); // HTTP 201
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage()); // HTTP 404
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage()); // HTTP 400
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al registrar la reserva:\n" + e.getMessage()); // HTTP 500
         }

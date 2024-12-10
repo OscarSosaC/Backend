@@ -44,10 +44,19 @@ public class ReservaService implements IReservaService {
     @Override
     public ReservaSalidaDTO registrarReserva(ReservaEntradaDTO reservaEntradaDTO) {
         Reserva reserva = modelMapper.map(reservaEntradaDTO, Reserva.class);
+
         Producto producto = productoRepository.findById(reservaEntradaDTO.getProductoId())
                 .orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
+
         Usuario usuario = usuarioRepository.findById(reservaEntradaDTO.getUsuarioId())
                 .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
+
+        List<Reserva> reservasConflictivas = reservaRepository.validarReservasEnRango(reservaEntradaDTO.getProductoId(), reservaEntradaDTO.getFechaInicio(), reservaEntradaDTO.getFechaFin());
+
+        if (!reservasConflictivas.isEmpty()) {
+            throw new IllegalArgumentException("El producto ya está reservado en las fechas seleccionadas.");
+        }
+
         reserva.setProducto(producto);
         reserva.setUsuario(usuario);
 
@@ -55,6 +64,7 @@ public class ReservaService implements IReservaService {
         ReservaSalidaDTO reservaSalidaDTO = modelMapper.map(reservaGuardada, ReservaSalidaDTO.class);
         LOGGER.info("ReservaSalidaDTO: " + JsonPrinter.toString(reservaSalidaDTO));
         return reservaSalidaDTO;
+
     }
 
     @Override
