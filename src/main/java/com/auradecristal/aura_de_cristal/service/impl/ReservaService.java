@@ -8,6 +8,7 @@ import com.auradecristal.aura_de_cristal.entity.Usuario;
 import com.auradecristal.aura_de_cristal.repository.IProductoRepository;
 import com.auradecristal.aura_de_cristal.repository.IReservaRepository;
 import com.auradecristal.aura_de_cristal.repository.IUsuarioRepository;
+import com.auradecristal.aura_de_cristal.service.IEmailService;
 import com.auradecristal.aura_de_cristal.service.IReservaService;
 import com.auradecristal.aura_de_cristal.util.JsonPrinter;
 import jakarta.persistence.EntityNotFoundException;
@@ -30,13 +31,16 @@ public class ReservaService implements IReservaService {
     @Autowired
     private IUsuarioRepository usuarioRepository;
     @Autowired
+    private IEmailService emailService;
+    @Autowired
     private ModelMapper modelMapper;
     private final Logger LOGGER = LoggerFactory.getLogger(ReservaService.class);
 
-    public ReservaService(IReservaRepository reservaRepository, IProductoRepository productoRepository, IUsuarioRepository usuarioRepository, ModelMapper modelMapper) {
+    public ReservaService(IReservaRepository reservaRepository, IProductoRepository productoRepository, IUsuarioRepository usuarioRepository, IEmailService emailService, ModelMapper modelMapper) {
         this.reservaRepository = reservaRepository;
         this.productoRepository = productoRepository;
         this.usuarioRepository = usuarioRepository;
+        this.emailService = emailService;
         this.modelMapper = modelMapper;
         configureMapping();
     }
@@ -63,6 +67,9 @@ public class ReservaService implements IReservaService {
         Reserva reservaGuardada = reservaRepository.save(reserva);
         ReservaSalidaDTO reservaSalidaDTO = modelMapper.map(reservaGuardada, ReservaSalidaDTO.class);
         LOGGER.info("ReservaSalidaDTO: " + JsonPrinter.toString(reservaSalidaDTO));
+
+        emailService.enviarCorreoConfirmacionReservaProducto(usuario.getNombre(), usuario.getEmail(), producto.getNombre(), reservaSalidaDTO);
+
         return reservaSalidaDTO;
 
     }
