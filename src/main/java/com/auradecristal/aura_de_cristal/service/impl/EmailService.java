@@ -35,10 +35,10 @@ public class EmailService implements IEmailService {
                             </div>
                             <h2 style="color: #0056b3; text-align: center;">¡Hola, %s!</h2>
                             <p>Tu cuenta en <strong>Aura de Cristal</strong> ha sido creada exitosamente.</p>
-                            <p>Para empezar a disfrutar de nuestros servicios, por favor inicia sesión haciendo clic en el botón de abajo:</p>
+                            <p>Para empezar a disfrutar de nuestros servicios, ingresa a nuestro sitio web:</p>
                             <div style="text-align: center; margin: 20px;">
                                 <a href="https://aura-de-cristal.vercel.app" style="display: inline-block; background-color: #dba643cc; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-size: 16px;">
-                                    Iniciar Sesión
+                                    Ir al sitio!
                                 </a>
                             </div>
                             <p>Si tienes alguna duda, no dudes en contactarnos.</p>
